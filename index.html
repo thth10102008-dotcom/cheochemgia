@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hỗ Trợ Chém Giá</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .task-box { border: 1px solid #ccc; padding: 20px; margin: 10px auto; width: 300px; border-radius: 8px;}
+        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        button:disabled { background-color: #6c757d; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <h1>Nhiệm vụ kiếm điểm</h1>
+    <p>Điểm của bạn: <b id="myPoints">100</b></p>
+
+    <!-- Nơi hiển thị nhiệm vụ -->
+    <div id="taskList">
+        <div class="task-box">
+            <p>Link: tiktok.com/@abc/video/123</p>
+            <button id="btnHoTro" onclick="startTimer(this)">Hỗ trợ (+10 điểm)</button>
+        </div>
+    </div>
+
+    <script>
+        // QUAN TRỌNG: Dán cái URL Apps Script bạn copy ở Bước 1 vào đây
+        const SCRIPT_URL = "DÁN_LINK_GOOGLE_APPS_SCRIPT_CỦA_BẠN_VÀO_ĐÂY";
+
+        // Logic đếm ngược 10 giây chống gian lận
+        function startTimer(btn) {
+            btn.disabled = true;
+            let timeLeft = 10;
+            
+            // Mở link TikTok ở tab mới
+            window.open("https://tiktok.com", "_blank");
+
+            let timer = setInterval(() => {
+                btn.innerText = `Vui lòng chờ ${timeLeft}s...`;
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    btn.innerText = "👉 Tôi đã hỗ trợ";
+                    btn.disabled = false;
+                    btn.style.backgroundColor = "#007bff";
+                    
+                    // Đổi hành động nút bấm thành Nhận Điểm
+                    btn.onclick = function() {
+                        alert("Thành công! Bạn được cộng 10 điểm.");
+                        document.getElementById("myPoints").innerText = parseInt(document.getElementById("myPoints").innerText) + 10;
+                        btn.style.display = "none"; // Ẩn nút đi
+                        // Ở phiên bản hoàn chỉnh, đoạn này sẽ gọi API lên Google Sheet để lưu điểm
+                    };
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
