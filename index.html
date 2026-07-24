@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikBoost - Trao đổi tương tác</title>
+    <title>Chéo Chém Giá - Trao đổi tương tác</title>
     <!-- Nhúng Tailwind CSS trực tiếp -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -13,11 +13,11 @@
     <nav class="bg-gray-900 border-b border-gray-800 text-white p-4 sticky top-0 z-50">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onclick="switchTab('home')">
-                TikBoost
+                Chéo Chém Giá
             </div>
             
             <div class="flex items-center gap-4">
-                <button id="btn-home" onclick="switchTab('home')" class="font-medium text-cyan-400">Nhiệm vụ</button>
+                <button id="btn-home" onclick="switchTab('home')" class="font-medium text-cyan-400">Vượt Link</button>
                 <button id="btn-post" onclick="switchTab('post')" class="font-medium text-gray-400 hover:text-white">Đăng Link</button>
                 
                 <div class="bg-gray-800 px-4 py-2 rounded-full flex items-center gap-2 border border-gray-700 ml-2">
@@ -32,8 +32,8 @@
         
         <!-- TRANG CHỦ: LÀM NHIỆM VỤ -->
         <div id="tab-home" class="block">
-            <h1 class="text-3xl font-bold mb-2 text-white">Nhiệm vụ hôm nay</h1>
-            <p class="text-gray-400 mb-8">Hoàn thành hỗ trợ để nhận 10 điểm thưởng.</p>
+            <h1 class="text-3xl font-bold mb-2 text-white">Nhiệm vụ Vượt Link</h1>
+            <p class="text-gray-400 mb-8">Hoàn thành vượt link để nhận 10 điểm thưởng.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="task-list">
                 <!-- Giao diện 1 Task mẫu -->
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <button class="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-gray-200 transition-all active:scale-95 flex justify-center items-center gap-2">
-                        ▶ Mở & Hỗ trợ (7s)
+                        ▶ Vượt Link (7s)
                     </button>
                 </div>
                 <!-- Task mẫu 2 -->
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <button class="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-gray-200 transition-all active:scale-95 flex justify-center items-center gap-2">
-                        ▶ Mở & Hỗ trợ (7s)
+                        ▶ Vượt Link (7s)
                     </button>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-2">Số lượt hỗ trợ cần thiết</label>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Số lượt vượt link cần thiết</label>
                         <input id="input-views" type="number" min="10" value="10" oninput="calculateCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
                     </div>
 
