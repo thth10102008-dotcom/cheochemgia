@@ -22,8 +22,13 @@
 
     <script>
         // DÁN LINK GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY
-        const API_URL = "https://script.google.com/macros/s/AKfycbyHVpnGTom-05eQ-KOGqohCKdnOUgVvekk2e5AZx57JPhw6YGfQSvCMcFSb3OQl8YwelQ/exec";
+        const API_URL = "DÁN_LINK_APPS_SCRIPT_CỦA_BẠN_VÀO_ĐÂY";
     </script>
+
+    <!-- NÚT LIÊN HỆ -->
+    <a href="https://t.me/Admin_Tele" target="_blank" class="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white w-14 h-14 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.6)] flex items-center justify-center z-[100] transition-transform hover:scale-110">
+        <i class="fa-brands fa-telegram text-3xl"></i>
+    </a>
 
     <!-- NAVBAR -->
     <nav class="bg-gray-900 border-b border-gray-800 text-white p-4 sticky top-0 z-50 shadow-lg">
@@ -70,9 +75,11 @@
                 <button onclick="fetchData()" class="bg-gray-800 text-cyan-400 px-4 py-2 rounded-lg font-bold"><i class="fa-solid fa-rotate-right mr-1"></i> Làm mới</button>
             </div>
 
-            <div class="flex gap-4 mb-6">
-                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-4 py-2 rounded-lg">Vượt Link</button>
-                <button id="btn-type-cheo" onclick="filterTasks('cheo_link')" class="bg-gray-900 text-gray-500 border border-gray-800 font-bold px-4 py-2 rounded-lg">Chéo Tương Tác</button>
+            <!-- CHIA 3 NÚT NHIỆM VỤ THEO YÊU CẦU -->
+            <div class="flex gap-3 mb-6 overflow-x-auto pb-2">
+                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Vượt Link</button>
+                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Tăng Tim</button>
+                <button id="btn-type-follow" onclick="filterTasks('cheo_follow')" class="bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Tăng Follow</button>
             </div>
 
             <div id="tasks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
@@ -85,9 +92,9 @@
                 <div class="space-y-5">
                     <div>
                         <label class="block text-sm text-gray-400 mb-2">Loại tương tác</label>
-                        <select id="post-type" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                            <option value="cheo_tim">Tăng Tim (Like)</option>
-                            <option value="cheo_follow">Tăng Follow</option>
+                        <select id="post-type" onchange="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
+                            <option value="cheo_tim">Tăng Tim (Like) - Giá: 200đ</option>
+                            <option value="cheo_follow">Tăng Follow - Giá: 300đ</option>
                         </select>
                     </div>
                     <div>
@@ -99,9 +106,9 @@
                         <input id="post-views" type="number" min="1" value="10" oninput="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
                     </div>
                     <div class="bg-gray-950 p-4 rounded-lg border border-gray-800">
-                        <div class="flex justify-between mb-2 text-gray-400"><span>Giá 1 lượt:</span> <span class="text-white font-bold">150 VNĐ</span></div>
+                        <div class="flex justify-between mb-2 text-gray-400"><span>Giá 1 lượt:</span> <span id="price-label" class="text-white font-bold">200 VNĐ</span></div>
                         <div class="flex justify-between border-t border-gray-800 pt-3 mt-2 font-bold text-lg">
-                            <span>Thanh toán:</span> <span id="post-total" class="text-yellow-400">- 1500 VNĐ</span>
+                            <span>Thanh toán:</span> <span id="post-total" class="text-yellow-400">- 2000 VNĐ</span>
                         </div>
                     </div>
                     <button id="btn-post-task" onclick="postTask()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-4 rounded-lg">
@@ -116,7 +123,7 @@
             <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-clock-rotate-left mr-2"></i> Lịch Sử Quản Lý</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800">
-                    <h3 class="text-lg font-bold text-cyan-400 mb-4 border-b border-gray-800 pb-2">Nhiệm vụ bạn đã làm</h3>
+                    <h3 class="text-lg font-bold text-cyan-400 mb-4 border-b border-gray-800 pb-2">Nhiệm vụ bạn đã làm & Lịch sử</h3>
                     <div id="history-done" class="space-y-3 max-h-[500px] overflow-y-auto pr-2"></div>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800">
@@ -134,26 +141,44 @@
         </div>
 
         <!-- TRANG CÁ NHÂN -->
-        <div id="tab-profile" class="tab-content max-w-2xl mx-auto">
+        <div id="tab-profile" class="tab-content">
             <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-user-gear text-gray-400 mr-2"></i> Hồ Sơ & Cài Đặt</h2>
             
-            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl mb-6 flex items-center gap-6">
-                <div class="w-24 h-24 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-full border-4 border-gray-950 flex items-center justify-center text-4xl shadow-lg">
-                    <i class="fa-solid fa-user text-white"></i>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Thông tin & Chuyển tiền -->
                 <div>
-                    <h2 id="profile-name" class="text-3xl font-bold text-white mb-1">Guest</h2>
-                    <p class="text-gray-400 mb-2">Thành viên</p>
-                    <div class="font-bold text-yellow-400 text-xl"><i class="fa-solid fa-wallet mr-2"></i>Số dư: <span id="profile-chem">0</span> VNĐ</div>
-                </div>
-            </div>
+                    <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl mb-6 flex items-center gap-6">
+                        <div class="w-24 h-24 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-full border-4 border-gray-950 flex items-center justify-center text-4xl shadow-lg">
+                            <i class="fa-solid fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <h2 id="profile-name" class="text-3xl font-bold text-white mb-1">Guest</h2>
+                            <p class="text-gray-400 mb-2">Thành viên</p>
+                            <div class="font-bold text-yellow-400 text-xl"><i class="fa-solid fa-wallet mr-2"></i><span id="profile-chem">0</span> VNĐ</div>
+                        </div>
+                    </div>
 
-            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
-                <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-lock mr-2 text-cyan-400"></i> Đổi Mật Khẩu</h3>
-                <div class="space-y-4">
-                    <input type="password" placeholder="Mật khẩu cũ" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-2 text-white">
-                    <input type="password" placeholder="Mật khẩu mới" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-2 text-white">
-                    <button class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-2 px-6 rounded-lg">Cập nhật</button>
+                    <!-- KHU VỰC CHUYỂN TIỀN -->
+                    <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
+                        <h3 class="text-lg font-bold text-green-400 mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Chuyển Tiền Cho Người Khác</h3>
+                        <div class="space-y-4">
+                            <input id="transfer-receiver" type="text" placeholder="Tên tài khoản người nhận" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-2 text-white">
+                            <input id="transfer-amount" type="number" placeholder="Số tiền cần chuyển" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-2 text-white">
+                            <button id="btn-transfer" onclick="transferMoney()" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700">Chuyển Ngay</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Đổi mật khẩu -->
+                <div>
+                    <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
+                        <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-lock mr-2 text-cyan-400"></i> Đổi Mật Khẩu</h3>
+                        <div class="space-y-4">
+                            <input type="password" placeholder="Mật khẩu cũ" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
+                            <input type="password" placeholder="Mật khẩu mới" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
+                            <button class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-6 rounded-lg w-full">Cập nhật</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,9 +211,7 @@
         };
 
         function showToast(msg, type="success") {
-            Toastify({ text: msg, duration: 3000, gravity: "bottom", position: "right",
-                style: { background: type==="success" ? "#059669" : "#e11d48", borderRadius: "8px" }
-            }).showToast();
+            Toastify({ text: msg, duration: 3000, gravity: "bottom", position: "right", style: { background: type==="success" ? "#059669" : "#e11d48", borderRadius: "8px" } }).showToast();
         }
 
         async function apiCall(action, payload) {
@@ -250,17 +273,13 @@
 
         function filterTasks(type) {
             currentTaskType = type;
-            document.getElementById('btn-type-vuot').className = type === 'vuot_link' ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-4 py-2 rounded-lg" : "bg-gray-900 text-gray-500 font-bold px-4 py-2 rounded-lg";
-            document.getElementById('btn-type-cheo').className = type === 'cheo_link' ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-4 py-2 rounded-lg" : "bg-gray-900 text-gray-500 font-bold px-4 py-2 rounded-lg";
+            document.getElementById('btn-type-vuot').className = type === 'vuot_link' ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg";
+            document.getElementById('btn-type-tim').className = type === 'cheo_tim' ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg";
+            document.getElementById('btn-type-follow').className = type === 'cheo_follow' ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg";
             
             const list = document.getElementById('tasks-container');
-            
-            // LỌC NHIỆM VỤ: 
-            // 1. Phải khớp type (cheo_link sẽ match cheo_tim và cheo_follow)
-            // 2. Không hiển thị nhiệm vụ của chính mình đăng
-            // 3. Tiến độ chưa đầy
             const filtered = allTasks
-                .filter(t => t.type.startsWith(type) && t.current < t.target && t.creator !== currentUser.username)
+                .filter(t => t.type === type && t.current < t.target && t.creator !== currentUser.username)
                 .sort(() => Math.random() - 0.5); 
             
             if(filtered.length === 0) {
@@ -269,19 +288,15 @@
             }
 
             list.innerHTML = filtered.map(t => {
-                let badge = '';
-                if(t.type === 'cheo_tim') badge = '<span class="text-pink-400 text-xs border border-pink-400/50 px-2 py-1 rounded ml-2">Tăng Tim</span>';
-                else if(t.type === 'cheo_follow') badge = '<span class="text-blue-400 text-xs border border-blue-400/50 px-2 py-1 rounded ml-2">Tăng Follow</span>';
-
                 return `
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 flex flex-col justify-between shadow-lg">
                     <div class="mb-4">
-                        <div class="text-xs text-gray-500 mb-2">ID: ${t.id} ${badge}</div>
+                        <div class="text-xs text-gray-500 mb-2">ID: ${t.id}</div>
                         <div class="truncate text-sm text-cyan-400">${t.url}</div>
                     </div>
                     <div class="flex justify-between items-center mb-4">
                         <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded text-sm font-bold">+${t.reward} đ</span>
-                        <span class="text-xs text-gray-400">Đã chéo: ${t.current}/${t.target}</span>
+                        <span class="text-xs text-gray-400">Tiến độ: ${t.current}/${t.target}</span>
                     </div>
                     <button onclick="startTaskTimer('${t.id}', '${t.url}')" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200">
                         Làm Nhiệm Vụ
@@ -290,24 +305,32 @@
             `}).join('');
         }
 
+        // TÍNH TOÁN GIÁ TIỀN ĐỘNG
         function calcCost() {
+            const type = document.getElementById('post-type').value;
+            const price = type === 'cheo_follow' ? 300 : 200;
             const v = document.getElementById('post-views').value;
-            document.getElementById('post-total').innerText = `- ${v * 150} VNĐ`;
+            
+            document.getElementById('price-label').innerText = price + " VNĐ";
+            document.getElementById('post-total').innerText = `- ${v * price} VNĐ`;
         }
 
         async function postTask() {
             const url = document.getElementById('post-url').value;
             const views = document.getElementById('post-views').value;
             const type = document.getElementById('post-type').value;
-            const cost = views * 150;
+            
+            const costPerView = type === 'cheo_follow' ? 300 : 200;
+            const rewardPerView = type === 'cheo_follow' ? 200 : 100; // Người làm nhận ít hơn 100đ
+            const totalCost = views * costPerView;
             
             if(!url) return showToast("Nhập link!", "error");
-            if(cost > currentUser.chem) return showToast("Số dư không đủ!", "error");
+            if(totalCost > currentUser.chem) return showToast("Số dư không đủ!", "error");
 
             const btn = document.getElementById('btn-post-task');
             btn.innerHTML = `<span class="loader"></span>`;
             
-            const res = await apiCall('post_task', { username: currentUser.username, taskType: type, url, views, costPerView: 150, totalCost: cost });
+            const res = await apiCall('post_task', { username: currentUser.username, taskType: type, url, views, costPerView, rewardPerView, totalCost });
             if(res && res.success) {
                 showToast("Đăng link thành công!");
                 currentUser.chem = res.newChem; localStorage.setItem('ccg_user', JSON.stringify(currentUser));
@@ -316,7 +339,6 @@
             btn.innerHTML = `Thanh toán & Đăng`;
         }
 
-        // BẬT ĐẾM NGƯỢC 15s TRƯỚC KHI XÁC NHẬN
         function startTaskTimer(taskId, url) {
             window.open(url, '_blank');
             const modal = document.getElementById('modal-countdown');
@@ -357,23 +379,61 @@
             }
         }
 
+        // TÍNH NĂNG CHUYỂN TIỀN
+        async function transferMoney() {
+            const receiver = document.getElementById('transfer-receiver').value;
+            const amount = document.getElementById('transfer-amount').value;
+
+            if(!receiver || !amount) return showToast("Nhập đủ thông tin người nhận và số tiền!", "error");
+
+            const btn = document.getElementById('btn-transfer');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<span class="loader"></span>`;
+
+            const res = await apiCall('transfer_money', { username: currentUser.username, receiver, amount });
+            if(res && res.success) {
+                showToast(res.message);
+                currentUser.chem = res.newChem;
+                localStorage.setItem('ccg_user', JSON.stringify(currentUser));
+                updateUI();
+                document.getElementById('transfer-receiver').value = '';
+                document.getElementById('transfer-amount').value = '';
+                fetchData();
+            } else {
+                showToast(res.message, "error");
+            }
+            btn.innerHTML = originalText;
+        }
+
         function renderHistory() {
             const boxDone = document.getElementById('history-done');
             const boxPost = document.getElementById('history-post');
             
-            // TRẢ LẠI CHỮ "CHỜ DUYỆT" CHO LỊCH SỬ LÀM NHIỆM VỤ
-            boxDone.innerHTML = myHistory.length === 0 ? '<p class="text-gray-600 text-sm">Chưa làm nhiệm vụ nào.</p>' : myHistory.reverse().map(h => `
-                <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center">
-                    <div>
-                        <div class="text-xs text-gray-500">${h.time}</div>
-                        <div class="text-sm truncate w-40 text-gray-300">ID: ${h.target}</div>
-                    </div>
-                    ${h.status === 'pending' 
-                        ? `<span class="text-xs font-bold text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded">Chờ duyệt</span>`
-                        : `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Hoàn thành</span>`
-                    }
-                </div>
-            `).join('');
+            boxDone.innerHTML = myHistory.length === 0 ? '<p class="text-gray-600 text-sm">Chưa có dữ liệu.</p>' : myHistory.reverse().map(h => {
+                // Xử lý hiển thị cả Lịch sử làm nhiệm vụ và Lịch sử chuyển tiền
+                if (h.action === 'chuyen_tien' || h.action === 'nhan_tien') {
+                    return `
+                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center">
+                        <div>
+                            <div class="text-xs text-gray-500">${h.time}</div>
+                            <div class="text-sm w-40 text-green-400 font-bold">${h.target}</div>
+                        </div>
+                        <span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Giao dịch</span>
+                    </div>`;
+                } else {
+                    return `
+                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center">
+                        <div>
+                            <div class="text-xs text-gray-500">${h.time}</div>
+                            <div class="text-sm truncate w-40 text-gray-300">ID: ${h.target}</div>
+                        </div>
+                        ${h.status === 'pending' 
+                            ? `<span class="text-xs font-bold text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded">Chờ duyệt</span>`
+                            : `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Hoàn thành</span>`
+                        }
+                    </div>`;
+                }
+            }).join('');
 
             boxPost.innerHTML = myPostedTasks.length === 0 ? '<p class="text-gray-600 text-sm">Chưa đăng link nào.</p>' : myPostedTasks.reverse().map(t => {
                 let isDone = t.current >= t.target;
