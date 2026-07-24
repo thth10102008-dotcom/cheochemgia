@@ -2,58 +2,143 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hỗ Trợ Chém Giá</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-        .task-box { border: 1px solid #ccc; padding: 20px; margin: 10px auto; width: 300px; border-radius: 8px;}
-        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
-        button:disabled { background-color: #6c757d; cursor: not-allowed; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikBoost - Trao đổi tương tác</title>
+    <!-- Nhúng Tailwind CSS trực tiếp -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-950 text-gray-200 min-h-screen font-sans">
 
-    <h1>Nhiệm vụ kiếm điểm</h1>
-    <p>Điểm của bạn: <b id="myPoints">100</b></p>
-
-    <!-- Nơi hiển thị nhiệm vụ -->
-    <div id="taskList">
-        <div class="task-box">
-            <p>Link: tiktok.com/@abc/video/123</p>
-            <button id="btnHoTro" onclick="startTimer(this)">Hỗ trợ (+10 điểm)</button>
-        </div>
-    </div>
-
-    <script>
-        // QUAN TRỌNG: Dán cái URL Apps Script bạn copy ở Bước 1 vào đây
-        const SCRIPT_URL = "DÁN_LINK_GOOGLE_APPS_SCRIPT_CỦA_BẠN_VÀO_ĐÂY";
-
-        // Logic đếm ngược 10 giây chống gian lận
-        function startTimer(btn) {
-            btn.disabled = true;
-            let timeLeft = 10;
+    <!-- THANH ĐIỀU HƯỚNG (NAVBAR) -->
+    <nav class="bg-gray-900 border-b border-gray-800 text-white p-4 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onclick="switchTab('home')">
+                TikBoost
+            </div>
             
-            // Mở link TikTok ở tab mới
-            window.open("https://tiktok.com", "_blank");
+            <div class="flex items-center gap-4">
+                <button id="btn-home" onclick="switchTab('home')" class="font-medium text-cyan-400">Nhiệm vụ</button>
+                <button id="btn-post" onclick="switchTab('post')" class="font-medium text-gray-400 hover:text-white">Đăng Link</button>
+                
+                <div class="bg-gray-800 px-4 py-2 rounded-full flex items-center gap-2 border border-gray-700 ml-2">
+                    <span class="text-yellow-400 text-lg">🪙</span>
+                    <span id="user-points" class="font-semibold">150</span>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-            let timer = setInterval(() => {
-                btn.innerText = `Vui lòng chờ ${timeLeft}s...`;
-                timeLeft--;
+    <main class="max-w-4xl mx-auto py-8 px-4">
+        
+        <!-- TRANG CHỦ: LÀM NHIỆM VỤ -->
+        <div id="tab-home" class="block">
+            <h1 class="text-3xl font-bold mb-2 text-white">Nhiệm vụ hôm nay</h1>
+            <p class="text-gray-400 mb-8">Hoàn thành hỗ trợ để nhận 10 điểm thưởng.</p>
 
-                if (timeLeft < 0) {
-                    clearInterval(timer);
-                    btn.innerText = "👉 Tôi đã hỗ trợ";
-                    btn.disabled = false;
-                    btn.style.backgroundColor = "#007bff";
-                    
-                    // Đổi hành động nút bấm thành Nhận Điểm
-                    btn.onclick = function() {
-                        alert("Thành công! Bạn được cộng 10 điểm.");
-                        document.getElementById("myPoints").innerText = parseInt(document.getElementById("myPoints").innerText) + 10;
-                        btn.style.display = "none"; // Ẩn nút đi
-                        // Ở phiên bản hoàn chỉnh, đoạn này sẽ gọi API lên Google Sheet để lưu điểm
-                    };
-                }
-            }, 1000);
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="task-list">
+                <!-- Giao diện 1 Task mẫu -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition-colors shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="truncate pr-4 text-sm text-cyan-400 hover:underline cursor-pointer">
+                            https://tiktok.com/@demo/video/123
+                        </div>
+                        <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                            +10 Điểm
+                        </div>
+                    </div>
+                    <button class="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-gray-200 transition-all active:scale-95 flex justify-center items-center gap-2">
+                        ▶ Mở & Hỗ trợ (7s)
+                    </button>
+                </div>
+                <!-- Task mẫu 2 -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition-colors shadow-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="truncate pr-4 text-sm text-cyan-400 hover:underline cursor-pointer">
+                            https://tiktok.com/@shop/video/456
+                        </div>
+                        <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                            +10 Điểm
+                        </div>
+                    </div>
+                    <button class="w-full bg-white text-black font-semibold py-3 rounded-lg hover:bg-gray-200 transition-all active:scale-95 flex justify-center items-center gap-2">
+                        ▶ Mở & Hỗ trợ (7s)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANG ĐĂNG LINK -->
+        <div id="tab-post" class="hidden max-w-xl mx-auto">
+            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-2xl">
+                <h2 class="text-2xl font-bold text-white mb-6">Đăng Link Của Bạn</h2>
+                
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Link video TikTok</label>
+                        <input id="input-url" type="text" placeholder="https://www.tiktok.com/..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Số lượt hỗ trợ cần thiết</label>
+                        <input id="input-views" type="number" min="10" value="10" oninput="calculateCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+
+                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-800">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-400">Đơn giá:</span>
+                            <span class="font-medium text-white">50 điểm/lượt</span>
+                        </div>
+                        <div class="flex justify-between border-t border-gray-800 pt-2 mt-2">
+                            <span class="font-bold text-white">Tổng chi phí:</span>
+                            <span id="total-cost" class="font-bold text-yellow-400">- 500 điểm</span>
+                        </div>
+                    </div>
+
+                    <button id="btn-submit" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition-opacity">
+                        Thanh toán & Đăng bài
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SCRIPTS XỬ LÝ GIAO DIỆN -->
+    <script>
+        const userPoints = 150; // Điểm giả lập ban đầu
+        const costPerView = 50;
+
+        // Hàm chuyển đổi giữa 2 trang
+        function switchTab(tab) {
+            // Đổi màu nút trên thanh menu
+            document.getElementById('btn-home').className = tab === 'home' ? 'font-medium text-cyan-400' : 'font-medium text-gray-400 hover:text-white';
+            document.getElementById('btn-post').className = tab === 'post' ? 'font-medium text-cyan-400' : 'font-medium text-gray-400 hover:text-white';
+            
+            // Ẩn/hiện nội dung
+            document.getElementById('tab-home').style.display = tab === 'home' ? 'block' : 'none';
+            document.getElementById('tab-post').style.display = tab === 'post' ? 'block' : 'none';
+        }
+
+        // Hàm tính toán điểm khi gõ số lượt
+        function calculateCost() {
+            const views = document.getElementById('input-views').value;
+            const totalCost = views * costPerView;
+            const costElement = document.getElementById('total-cost');
+            const submitBtn = document.getElementById('btn-submit');
+
+            costElement.innerText = `- ${totalCost} điểm`;
+
+            if (totalCost > userPoints) {
+                costElement.className = 'font-bold text-red-500';
+                submitBtn.innerText = 'Không đủ điểm';
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                submitBtn.disabled = true;
+            } else {
+                costElement.className = 'font-bold text-yellow-400';
+                submitBtn.innerText = 'Thanh toán & Đăng bài';
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.disabled = false;
+            }
         }
     </script>
 </body>
