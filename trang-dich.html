@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lấy Mã Nhiệm Vụ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-gray-200 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="bg-gray-950 p-8 rounded-2xl border border-gray-800 shadow-2xl max-w-md w-full text-center">
+        <i class="fa-solid fa-shield-check text-5xl text-green-500 mb-4"></i>
+        <h1 class="text-2xl font-bold text-white mb-2">Xác Nhận Vượt Link</h1>
+        <p class="text-gray-400 mb-6 text-sm">Vui lòng nhập đúng thông tin bên web Chéo Chém Giá để hệ thống cấp mã riêng cho bạn.</p>
+
+        <div class="space-y-4 mb-6">
+            <input id="input-username" type="text" placeholder="Tên tài khoản của bạn..." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-cyan-500 text-center">
+            
+            <input id="input-taskid" type="text" placeholder="ID Nhiệm vụ (Ví dụ: 178490...)" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-cyan-500 text-center">
+        </div>
+
+        <button onclick="generateCode()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform">
+            LẤY MÃ NHẬN THƯỞNG
+        </button>
+
+        <div id="result-box" class="hidden mt-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg">
+            <p class="text-sm text-gray-300 mb-2">Mã xác nhận của bạn là:</p>
+            <p id="secret-code" class="text-xl font-mono font-bold text-green-400 break-all select-all"></p>
+            <p class="text-xs text-yellow-400 mt-2">Hãy copy mã này dán về web để nhận tiền!</p>
+        </div>
+    </div>
+
+    <script>
+        function generateCode() {
+            let u = document.getElementById('input-username').value.trim().toLowerCase();
+            let t = document.getElementById('input-taskid').value.trim();
+            
+            if(!u || !t) {
+                alert("Vui lòng nhập đầy đủ Tên tài khoản và ID Nhiệm vụ!");
+                return;
+            }
+
+            // Thuật toán tạo mã khóa kép (Chỉ có bạn và server biết secret key này)
+            let secretKey = "CHEO_CHEM_GIA_2026";
+            let rawString = u + "|" + t + "|" + secretKey;
+            
+            // Mã hóa ra 1 chuỗi ký tự loằng ngoằng
+            let code = btoa(unescape(encodeURIComponent(rawString))); 
+            
+            document.getElementById('secret-code').innerText = code;
+            document.getElementById('result-box').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
