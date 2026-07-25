@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chéo Chém Giá - Vượt Link & Trao Đổi</title>
+    <title>Chéo Chém Giá - Nền tảng Uy tín</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -15,8 +15,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid #06b6d4; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .modal-bg { background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); }
-        /* Ẩn thanh cuộn ngang nhưng vẫn vuốt được */
+        .modal-bg { background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -24,11 +23,11 @@
 <body class="bg-gray-950 text-gray-200 min-h-screen font-sans flex flex-col relative">
 
     <script>
-        // LINK API CỦA BẠN ĐÃ ĐƯỢC GẮN VÀO ĐÂY
+        // LINK API GOOGLE SHEETS
         const API_URL = "https://script.google.com/macros/s/AKfycbyHVpnGTom-05eQ-KOGqohCKdnOUgVvekk2e5AZx57JPhw6YGfQSvCMcFSb3OQl8YwelQ/exec";
     </script>
 
-    <!-- NÚT LIÊN HỆ TELEGRAM -->
+    <!-- NÚT TELEGRAM -->
     <a href="https://t.me/Admin_Tele" target="_blank" class="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white w-14 h-14 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.6)] flex items-center justify-center z-[100] transition-transform hover:scale-110">
         <i class="fa-brands fa-telegram text-3xl"></i>
     </a>
@@ -44,7 +43,6 @@
                 <button onclick="switchTab('home')" class="nav-btn font-medium text-cyan-400"><i class="fa-solid fa-list-check"></i> Nhiệm vụ</button>
                 <button onclick="switchTab('post')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-plus-circle"></i> Đăng Link</button>
                 <button onclick="switchTab('history')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử</button>
-                <button onclick="switchTab('leaderboard')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-trophy text-yellow-500"></i> Đua Top</button>
                 <button onclick="switchTab('profile')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-user-gear"></i> Cá Nhân</button>
                 
                 <div class="bg-gray-800 px-4 py-2 rounded-full flex items-center gap-2 border border-gray-700 shadow-inner ml-2">
@@ -78,12 +76,11 @@
                 <button onclick="fetchData()" class="bg-gray-800 text-cyan-400 px-4 py-2 rounded-lg font-bold"><i class="fa-solid fa-rotate-right mr-1"></i> Làm mới</button>
             </div>
 
-            <!-- MENU CHỌN 4 LOẠI NHIỆM VỤ ĐẦY ĐỦ -->
             <div class="flex gap-3 mb-6 overflow-x-auto pb-2 hide-scroll">
-                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg whitespace-nowrap transition-colors">Vượt Link</button>
-                <button id="btn-type-chem" onclick="filterTasks('cheo_chem')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap hover:text-gray-300 transition-colors">Chém Giá</button>
-                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap hover:text-gray-300 transition-colors">Tăng Tim</button>
-                <button id="btn-type-follow" onclick="filterTasks('cheo_follow')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap hover:text-gray-300 transition-colors">Tăng Follow</button>
+                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Vượt Link</button>
+                <button id="btn-type-chem" onclick="filterTasks('cheo_chem')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Chém Giá</button>
+                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Tăng Tim</button>
+                <button id="btn-type-follow" onclick="filterTasks('cheo_follow')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Tăng Follow</button>
             </div>
 
             <div id="tasks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
@@ -128,7 +125,7 @@
             <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-clock-rotate-left mr-2"></i> Lịch Sử Quản Lý</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-lg">
-                    <h3 class="text-lg font-bold text-cyan-400 mb-4 border-b border-gray-800 pb-2">Nhiệm vụ bạn đã làm & Lịch sử</h3>
+                    <h3 class="text-lg font-bold text-cyan-400 mb-4 border-b border-gray-800 pb-2">Lịch sử làm nhiệm vụ</h3>
                     <div id="history-done" class="space-y-3 max-h-[500px] overflow-y-auto pr-2"></div>
                 </div>
                 <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-lg">
@@ -138,33 +135,22 @@
             </div>
         </div>
 
-        <!-- TRANG ĐUA TOP -->
-        <div id="tab-leaderboard" class="tab-content max-w-2xl mx-auto text-center">
-            <i class="fa-solid fa-crown text-5xl text-yellow-500 mb-4"></i>
-            <h1 class="text-3xl font-bold text-white mb-8">Bảng Xếp Hạng Đang Phát Triển</h1>
-            <p class="text-gray-400">Admin sẽ sớm cập nhật bảng đua top.</p>
-        </div>
-
-        <!-- TRANG CÁ NHÂN -->
+        <!-- TRANG CÁ NHÂN & CHUYỂN TIỀN -->
         <div id="tab-profile" class="tab-content">
             <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-user-gear text-gray-400 mr-2"></i> Hồ Sơ & Cài Đặt</h2>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Thông tin & Chuyển tiền -->
                 <div>
                     <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl mb-6 flex items-center gap-6">
-                        <div class="w-24 h-24 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-full border-4 border-gray-950 flex items-center justify-center text-4xl shadow-lg">
+                        <div class="w-24 h-24 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-4xl shadow-lg">
                             <i class="fa-solid fa-user text-white"></i>
                         </div>
                         <div>
                             <h2 id="profile-name" class="text-3xl font-bold text-white mb-1">Guest</h2>
-                            <p class="text-gray-400 mb-2">Thành viên</p>
                             <div class="font-bold text-yellow-400 text-xl"><i class="fa-solid fa-wallet mr-2"></i><span id="profile-chem">0</span> VNĐ</div>
                         </div>
                     </div>
-
                     <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
-                        <h3 class="text-lg font-bold text-green-400 mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Chuyển Tiền Cho Người Khác</h3>
+                        <h3 class="text-lg font-bold text-green-400 mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Chuyển Tiền Chéo</h3>
                         <div class="space-y-4">
                             <input id="transfer-receiver" type="text" placeholder="Tên tài khoản người nhận" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-cyan-500">
                             <input id="transfer-amount" type="number" placeholder="Số tiền cần chuyển" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-cyan-500">
@@ -172,29 +158,23 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Đổi mật khẩu -->
-                <div>
-                    <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
-                        <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-lock mr-2 text-cyan-400"></i> Đổi Mật Khẩu</h3>
-                        <div class="space-y-4">
-                            <input type="password" placeholder="Mật khẩu cũ" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                            <input type="password" placeholder="Mật khẩu mới" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                            <button class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-6 rounded-lg w-full">Cập nhật</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
 
-    <!-- POPUP ĐẾM NGƯỢC 15S CHỐNG TOOL -->
-    <div id="modal-countdown" class="fixed inset-0 modal-bg z-[100] hidden flex items-center justify-center px-4">
-        <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl max-w-sm w-full text-center shadow-2xl">
-            <h3 class="text-xl font-bold text-white mb-4">Đang kiểm tra...</h3>
-            <div class="text-5xl font-bold text-cyan-400 mb-4" id="time-left">15</div>
-            <p class="text-gray-400 mb-6 text-sm">Vui lòng hoàn thành tương tác ở tab vừa mở. Xác nhận sẽ hiện sau khi hết giờ.</p>
-            <button id="btn-claim" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hidden hover:bg-green-500">Xác nhận hoàn thành</button>
+    <!-- POPUP BÁO CÁO NHIỆM VỤ (KHÔNG CÒN ĐẾM THỜI GIAN) -->
+    <div id="modal-verify" class="fixed inset-0 modal-bg z-[100] hidden flex items-center justify-center px-4">
+        <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl max-w-md w-full shadow-[0_0_30px_rgba(6,182,212,0.15)] relative">
+            <button onclick="closeVerifyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white text-2xl"><i class="fa-solid fa-times"></i></button>
+            
+            <h3 class="text-xl font-bold text-white mb-2" id="verify-title"><i class="fa-solid fa-shield-halved text-cyan-400 mr-2"></i>Xác Nhận Nhiệm Vụ</h3>
+            <p class="text-gray-400 mb-6 text-sm" id="verify-desc">...</p>
+            
+            <input id="verify-input" type="text" class="w-full bg-gray-950 border border-cyan-500 rounded-lg px-4 py-4 text-white text-lg mb-6 focus:outline-none focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all" placeholder="Nhập tại đây...">
+            
+            <button id="btn-submit-verify" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 rounded-lg hover:scale-105 transition-transform active:scale-95 shadow-lg">
+                Gửi Báo Cáo & Nhận Tiền
+            </button>
         </div>
     </div>
 
@@ -205,6 +185,9 @@
         let myHistory = [];
         let currentTaskType = 'vuot_link'; 
         let authMode = 'login'; 
+
+        let activeTaskId = null;
+        let activeTaskType = null;
 
         window.onload = () => {
             const saved = localStorage.getItem('ccg_user');
@@ -275,7 +258,6 @@
             }
         }
 
-        // LỌC 4 LOẠI NHIỆM VỤ
         function filterTasks(type) {
             currentTaskType = type;
             const activeClass = "nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg whitespace-nowrap transition-colors";
@@ -312,22 +294,19 @@
                         <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded text-sm font-bold">+${t.reward} đ</span>
                         <span class="text-xs text-gray-400 bg-gray-950 px-2 py-1 rounded">Đã làm: ${t.current}/${t.target}</span>
                     </div>
-                    <button onclick="startTaskTimer('${t.id}', '${t.url}')" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 active:scale-95 transition-transform">
-                        <i class="fa-solid fa-play mr-1"></i> Làm Nhiệm Vụ
+                    <button onclick="startTaskVerify('${t.id}', '${t.url}', '${t.type}')" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 active:scale-95 transition-transform">
+                        <i class="fa-solid fa-play mr-1"></i> Làm & Báo Cáo
                     </button>
                 </div>
             `}).join('');
         }
 
-        // TÍNH TOÁN GIÁ TIỀN ĐỘNG CHO 3 LOẠI
         function calcCost() {
             const type = document.getElementById('post-type').value;
-            let price = 150; // Mặc định là Chém Giá
+            let price = 150; 
             if (type === 'cheo_follow') price = 300;
             if (type === 'cheo_tim') price = 200;
-            
             const v = document.getElementById('post-views').value;
-            
             document.getElementById('price-label').innerText = price + " VNĐ";
             document.getElementById('post-total').innerText = `- ${v * price} VNĐ`;
         }
@@ -343,7 +322,6 @@
             if (type === 'cheo_tim') { costPerView = 200; rewardPerView = 100; }
 
             const totalCost = views * costPerView;
-            
             if(!url) return showToast("Nhập link!", "error");
             if(totalCost > currentUser.chem) return showToast("Số dư không đủ!", "error");
 
@@ -359,35 +337,49 @@
             btn.innerHTML = `Thanh toán & Đăng`;
         }
 
-        function startTaskTimer(taskId, url) {
+        // HÀM MỞ POPUP YÊU CẦU BẰNG CHỨNG (THAY THẾ HOÀN TOÀN ĐẾM THỜI GIAN 15 GIÂY)
+        function startTaskVerify(taskId, url, type) {
             window.open(url, '_blank');
-            const modal = document.getElementById('modal-countdown');
-            const timeDisplay = document.getElementById('time-left');
-            const btnClaim = document.getElementById('btn-claim');
+            activeTaskId = taskId;
+            activeTaskType = type;
+            
+            const modal = document.getElementById('modal-verify');
+            const desc = document.getElementById('verify-desc');
+            const input = document.getElementById('verify-input');
+            
+            input.value = '';
+            
+            if (type === 'vuot_link') {
+                desc.innerHTML = `Nhiệm vụ <b>Vượt Link</b>: Hãy đi đến trang đích để lấy mã bảo mật. Nhập mã đó vào đây để nhận tiền ngay lập tức!`;
+                input.placeholder = "Dán đoạn mã loằng ngoằng bạn vừa lấy được vào đây...";
+            } else {
+                desc.innerHTML = "Vui lòng nhập chính xác <b>Tên tài khoản (ID)</b> bạn vừa dùng để tương tác. Chủ link sẽ kiểm tra, nhập sai sẽ bị khóa nick.";
+                input.placeholder = "Nhập ID TikTok/Shopee của bạn (VD: @nguyenvana)";
+            }
             
             modal.classList.remove('hidden');
-            btnClaim.classList.add('hidden');
-            
-            let timeLeft = 15;
-            timeDisplay.innerText = timeLeft;
-
-            const timer = setInterval(() => {
-                timeLeft--;
-                timeDisplay.innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    btnClaim.classList.remove('hidden');
-                    btnClaim.onclick = function() {
-                        modal.classList.add('hidden');
-                        submitTaskFinal(taskId);
-                    };
-                }
-            }, 1000);
         }
 
-        async function submitTaskFinal(taskId) {
-            showToast("Đang gửi yêu cầu xác nhận...");
-            const res = await apiCall('submit_task', { username: currentUser.username, taskId });
+        function closeVerifyModal() {
+            document.getElementById('modal-verify').classList.add('hidden');
+        }
+
+        // GỬI MÃ LÊN SERVER KIỂM TRA
+        document.getElementById('btn-submit-verify').onclick = async function() {
+            const verifyData = document.getElementById('verify-input').value.trim();
+            if (!verifyData) return showToast("Bạn bắt buộc phải nhập mã báo cáo!", "error");
+            
+            const btn = document.getElementById('btn-submit-verify');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<span class="loader"></span> Đang kiểm tra...`;
+            btn.disabled = true;
+
+            const res = await apiCall('submit_task', { 
+                username: currentUser.username, 
+                taskId: activeTaskId,
+                verifyData: verifyData
+            });
+            
             if(res && res.success) {
                 showToast(res.message);
                 if(res.newChem) {
@@ -395,15 +387,20 @@
                     localStorage.setItem('ccg_user', JSON.stringify(currentUser));
                     updateUI();
                 }
+                closeVerifyModal();
                 fetchData(); switchTab('history');
+            } else {
+                showToast(res.message, "error");
+                document.getElementById('verify-input').focus();
             }
-        }
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        };
 
-        // TÍNH NĂNG CHUYỂN TIỀN
         async function transferMoney() {
             const receiver = document.getElementById('transfer-receiver').value.trim();
             const amount = document.getElementById('transfer-amount').value;
-
             if(!receiver || !amount || amount <= 0) return showToast("Thông tin không hợp lệ!", "error");
 
             const btn = document.getElementById('btn-transfer');
@@ -413,15 +410,9 @@
             const res = await apiCall('transfer_money', { username: currentUser.username, receiver, amount });
             if(res && res.success) {
                 showToast(res.message);
-                currentUser.chem = res.newChem;
-                localStorage.setItem('ccg_user', JSON.stringify(currentUser));
-                updateUI();
-                document.getElementById('transfer-receiver').value = '';
-                document.getElementById('transfer-amount').value = '';
-                fetchData();
-            } else {
-                showToast(res.message, "error");
-            }
+                currentUser.chem = res.newChem; localStorage.setItem('ccg_user', JSON.stringify(currentUser));
+                updateUI(); document.getElementById('transfer-receiver').value = ''; document.getElementById('transfer-amount').value = ''; fetchData();
+            } else { showToast(res.message, "error"); }
             btn.innerHTML = originalText;
         }
 
@@ -440,15 +431,21 @@
                         <span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Giao dịch</span>
                     </div>`;
                 } else {
+                    // Nếu là vượt link (tự động duyệt) thì ghi "Hoàn thành + Tiền", không ghi "Chờ duyệt" nữa.
+                    let isVuotLink = (h.target.includes('vuot_'));
                     return `
                     <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center hover:border-gray-700">
                         <div>
                             <div class="text-xs text-gray-500 mb-1"><i class="fa-regular fa-clock"></i> ${h.time}</div>
-                            <div class="text-sm truncate w-40 text-gray-300">ID: ${h.target}</div>
+                            <div class="text-sm truncate w-40 text-cyan-400 mb-1" title="ID Nhiệm vụ: ${h.target}">ID: ${h.target}</div>
+                            <div class="text-xs text-gray-500 truncate w-40">Mã/ID: <span class="text-gray-300 font-medium">${h.verifyData || "Không có"}</span></div>
                         </div>
-                        ${h.status === 'pending' 
-                            ? `<span class="text-xs font-bold text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded"><i class="fa-solid fa-spinner fa-spin mr-1"></i>Chờ duyệt</span>`
-                            : `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Hoàn thành</span>`
+                        ${isVuotLink 
+                            ? `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded whitespace-nowrap">Đã duyệt</span>`
+                            : (h.status === 'pending' 
+                                ? `<span class="text-xs font-bold text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded whitespace-nowrap"><i class="fa-solid fa-spinner fa-spin mr-1"></i>Chờ duyệt</span>`
+                                : `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded whitespace-nowrap">Hoàn thành</span>`
+                              )
                         }
                     </div>`;
                 }
