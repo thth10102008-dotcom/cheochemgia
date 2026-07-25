@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chéo Chém Giá - Hệ Thống Vượt Link Auto</title>
+    <title>Chéo Chém Giá - Auto Link4m</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+        // BẬT CHẾ ĐỘ DARK MODE CHO TAILWIND
+        tailwind.config = { darkMode: 'class' }
+    </script>
 
     <style>
         .tab-content { display: none; animation: fadeIn 0.3s; }
@@ -15,32 +20,40 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid #06b6d4; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .modal-bg { background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); }
+        .modal-bg { background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-200 min-h-screen font-sans flex flex-col relative">
+<body class="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-200 min-h-screen font-sans flex flex-col transition-colors duration-300">
 
     <script>
-        // THAY LINK WEB APP CỦA BẠN VÀO ĐÂY
+        // ĐIỀN LINK APP SCRIPT VÀ TÊN TÀI KHOẢN ADMIN VÀO ĐÂY
         const API_URL = "https://script.google.com/macros/s/AKfycbyHVpnGTom-05eQ-KOGqohCKdnOUgVvekk2e5AZx57JPhw6YGfQSvCMcFSb3OQl8YwelQ/exec";
+        const ADMIN_USERNAME = "admin"; // Điền tên tài khoản chủ web của bạn vào đây
     </script>
 
-    <nav class="bg-gray-900 border-b border-gray-800 text-white p-4 sticky top-0 z-50 shadow-lg">
+    <nav class="bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-800 p-4 sticky top-0 z-50 shadow-md transition-colors">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onclick="switchTab('home')">
-                <i class="fa-solid fa-bolt text-cyan-400"></i> Chéo Chém Giá
+            <div class="text-2xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent cursor-pointer" onclick="switchTab('home')">
+                <i class="fa-solid fa-bolt text-cyan-500"></i> Chéo Chém Giá
             </div>
             
-            <div id="nav-menu" class="hidden md:flex items-center gap-5 text-sm lg:text-base">
-                <button onclick="switchTab('home')" class="nav-btn font-medium text-cyan-400"><i class="fa-solid fa-list-check"></i> Nhiệm vụ</button>
-                <button onclick="switchTab('post')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-plus-circle"></i> Đăng Link</button>
-                <button onclick="switchTab('history')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử</button>
-                <button onclick="switchTab('profile')" class="nav-btn font-medium text-gray-400 hover:text-white"><i class="fa-solid fa-user-gear"></i> Cá Nhân</button>
+            <div id="nav-menu" class="hidden md:flex items-center gap-4 text-sm lg:text-base font-semibold">
+                <button onclick="switchTab('home')" class="nav-btn text-cyan-500"><i class="fa-solid fa-list-check"></i> Nhiệm vụ</button>
+                <button onclick="switchTab('post')" class="nav-btn text-gray-500 dark:text-gray-400 hover:text-cyan-500"><i class="fa-solid fa-plus-circle"></i> Đăng Link</button>
+                <button onclick="switchTab('history')" class="nav-btn text-gray-500 dark:text-gray-400 hover:text-cyan-500"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử</button>
+                <button onclick="switchTab('leaderboard')" class="nav-btn text-gray-500 dark:text-gray-400 hover:text-cyan-500"><i class="fa-solid fa-trophy"></i> BXH</button>
+                <button onclick="switchTab('profile')" class="nav-btn text-gray-500 dark:text-gray-400 hover:text-cyan-500"><i class="fa-solid fa-user-gear"></i> Cá Nhân</button>
                 
-                <div class="bg-gray-800 px-4 py-2 rounded-full flex items-center gap-2 border border-gray-700 shadow-inner ml-2">
-                    <span id="nav-chem" class="font-bold text-yellow-400">0</span> <span class="text-gray-400 text-xs">VNĐ</span>
+                <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full flex items-center gap-2 border border-gray-300 dark:border-gray-700 ml-2">
+                    <span id="nav-chem" class="text-orange-500 dark:text-yellow-400">0</span> <span class="text-xs">VNĐ</span>
                 </div>
-                <button onclick="logout()" class="text-red-400 hover:text-red-300 ml-2" title="Đăng xuất"><i class="fa-solid fa-right-from-bracket"></i></button>
+                
+                <!-- NÚT CHUYỂN SÁNG TỐI -->
+                <button onclick="toggleTheme()" id="theme-btn" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-moon text-gray-600 dark:text-gray-300"></i>
+                </button>
+
+                <button onclick="logout()" class="text-red-500 hover:text-red-600 text-lg" title="Đăng xuất"><i class="fa-solid fa-right-from-bracket"></i></button>
             </div>
         </div>
     </nav>
@@ -48,124 +61,171 @@
     <main class="flex-grow max-w-7xl mx-auto py-8 px-4 w-full">
         <!-- ĐĂNG NHẬP -->
         <div id="tab-auth" class="tab-content active max-w-md mx-auto mt-10">
-            <div class="bg-gray-900 rounded-2xl p-8 border border-gray-800 shadow-2xl">
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800 shadow-xl">
                 <div class="flex justify-center mb-6">
-                    <button id="btn-show-login" onclick="toggleAuth('login')" class="px-4 py-2 border-b-2 border-cyan-400 text-cyan-400 font-bold">Đăng Nhập</button>
-                    <button id="btn-show-register" onclick="toggleAuth('register')" class="px-4 py-2 border-b-2 border-transparent text-gray-500 font-bold hover:text-gray-300">Đăng Ký</button>
+                    <button id="btn-show-login" onclick="toggleAuth('login')" class="px-4 py-2 border-b-2 border-cyan-500 text-cyan-500 font-bold">Đăng Nhập</button>
+                    <button id="btn-show-register" onclick="toggleAuth('register')" class="px-4 py-2 border-b-2 border-transparent text-gray-500 font-bold">Đăng Ký</button>
                 </div>
-                <input id="auth-username" type="text" placeholder="Tên tài khoản..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white mb-4">
-                <input id="auth-password" type="password" placeholder="Mật khẩu..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white mb-6">
-                <button id="btn-auth" onclick="handleAuth()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 hover:opacity-90">Bắt đầu</button>
+                <input id="auth-username" type="text" placeholder="Tên tài khoản..." class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:border-cyan-500">
+                <input id="auth-password" type="password" placeholder="Mật khẩu..." class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 mb-6 focus:outline-none focus:border-cyan-500">
+                <button id="btn-auth" onclick="handleAuth()" class="w-full bg-cyan-500 text-white font-bold py-3 rounded-lg hover:bg-cyan-600">Bắt đầu</button>
             </div>
         </div>
 
-        <!-- DANH SÁCH NHIỆM VỤ -->
+        <!-- NHIỆM VỤ -->
         <div id="tab-home" class="tab-content">
-            <div class="flex justify-between items-end mb-6 border-b border-gray-800 pb-4">
-                <h1 class="text-3xl font-bold text-white">Nhiệm Vụ</h1>
-                <button onclick="fetchData()" class="bg-gray-800 text-cyan-400 px-4 py-2 rounded-lg font-bold"><i class="fa-solid fa-rotate-right mr-1"></i> Làm mới</button>
+            <div class="flex justify-between items-end mb-6 border-b border-gray-300 dark:border-gray-800 pb-4">
+                <h1 class="text-3xl font-bold">Nhiệm Vụ</h1>
+                <button onclick="fetchData()" class="bg-gray-200 dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 px-4 py-2 rounded-lg font-bold"><i class="fa-solid fa-rotate-right mr-1"></i> Làm mới</button>
             </div>
-
             <div class="flex gap-3 mb-6 overflow-x-auto pb-2">
-                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg">Vượt Link</button>
-                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg">Tăng Tim</button>
+                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="nav-task-btn bg-cyan-100 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-bold px-5 py-2 rounded-lg border border-cyan-300 dark:border-cyan-500/50">Vượt Link</button>
+                <button id="btn-type-chem" onclick="filterTasks('cheo_chem')" class="nav-task-btn bg-white dark:bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg border border-gray-200 dark:border-gray-800">Chém Giá</button>
+                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="nav-task-btn bg-white dark:bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg border border-gray-200 dark:border-gray-800">Tăng Tim</button>
+                <button id="btn-type-follow" onclick="filterTasks('cheo_follow')" class="nav-task-btn bg-white dark:bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg border border-gray-200 dark:border-gray-800">Tăng Follow</button>
             </div>
-
             <div id="tasks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
         </div>
 
-        <!-- TẠO NHIỆM VỤ -->
+        <!-- ĐĂNG LINK (CHỈ ADMIN THẤY VƯỢT LINK) -->
         <div id="tab-post" class="tab-content max-w-xl mx-auto">
-            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
-                <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-paper-plane text-purple-400 mr-2"></i> Tạo Nhiệm Vụ Mới</h2>
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-xl">
+                <h2 class="text-2xl font-bold mb-6 text-blue-600 dark:text-blue-400"><i class="fa-solid fa-paper-plane mr-2"></i> Đăng Link Nhiệm Vụ</h2>
                 <div class="space-y-5">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Loại nhiệm vụ</label>
-                        <select id="post-type" onchange="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                            <option value="vuot_link">Vượt Link - Giá: 150 VNĐ/lượt (Tặng 100 VNĐ cho người làm)</option>
-                            <option value="cheo_tim">Tăng Tim - Giá: 200 VNĐ/lượt (Tặng 150 VNĐ cho người làm)</option>
+                        <label class="block text-sm font-semibold mb-2">Loại tương tác cần mua</label>
+                        <select id="post-type" onchange="calcCost()" class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 focus:border-cyan-500">
+                            <!-- JS SẼ TỰ ĐIỀN OPTION VÀO ĐÂY DỰA THEO QUYỀN ADMIN -->
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Đường link (Tùy chọn cho Vượt Link)</label>
-                        <input id="post-url" type="text" placeholder="https://..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
+                        <label class="block text-sm font-semibold mb-2">Đường link (Tùy chọn cho Vượt Link)</label>
+                        <input id="post-url" type="text" placeholder="https://..." class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 focus:border-cyan-500">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Số lượt cần thuê</label>
-                        <input id="post-views" type="number" min="1" value="10" oninput="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
+                        <label class="block text-sm font-semibold mb-2">Số lượt cần</label>
+                        <input id="post-views" type="number" min="1" value="10" oninput="calcCost()" class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 focus:border-cyan-500">
                     </div>
-                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 shadow-inner">
-                        <div class="flex justify-between border-t border-gray-800 pt-3 mt-2 font-bold text-lg">
-                            <span>Tổng chi phí:</span> <span id="post-total" class="text-yellow-400">- 1500 VNĐ</span>
+                    <div class="bg-gray-100 dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 shadow-inner">
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>Tổng thanh toán:</span> <span id="post-total" class="text-orange-500 dark:text-yellow-400">- 1500 VNĐ</span>
                         </div>
                     </div>
-                    <button id="btn-post-task" onclick="postTask()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-4 rounded-lg hover:opacity-90">
+                    <button id="btn-post-task" onclick="postTask()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg transition-colors">
                         Thanh toán & Đăng
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="tab-history" class="tab-content">
-            <h2 class="text-2xl font-bold text-white mb-6">Lịch Sử</h2>
-            <div id="history-done" class="space-y-3"></div>
+        <!-- BẢNG XẾP HẠNG (MỚI KHÔI PHỤC) -->
+        <div id="tab-leaderboard" class="tab-content max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold mb-6"><i class="fa-solid fa-trophy text-yellow-500 mr-2"></i> Bảng Xếp Hạng Đại Gia</h2>
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-xl">
+                <div id="leaderboard-container" class="space-y-3"></div>
+            </div>
         </div>
-        <div id="tab-profile" class="tab-content">
-            <h2 class="text-2xl font-bold text-white mb-6">Cá Nhân</h2>
-            <div class="text-xl font-bold text-yellow-400 mb-4">Số dư: <span id="profile-chem">0</span> VNĐ</div>
+
+        <!-- LỊCH SỬ -->
+        <div id="tab-history" class="tab-content">
+            <h2 class="text-2xl font-bold mb-6">Lịch Sử Của Bạn</h2>
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-xl max-w-3xl mx-auto">
+                <div id="history-done" class="space-y-3 max-h-[500px] overflow-y-auto"></div>
+            </div>
+        </div>
+
+        <!-- CÁ NHÂN & ĐỔI MẬT KHẨU (MỚI KHÔI PHỤC) -->
+        <div id="tab-profile" class="tab-content max-w-lg mx-auto">
+            <h2 class="text-2xl font-bold mb-6"><i class="fa-solid fa-user-gear mr-2"></i> Cài Đặt Cá Nhân</h2>
+            
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-xl mb-6 flex items-center gap-6">
+                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-4xl text-white shadow-lg">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div>
+                    <h2 id="profile-name" class="text-2xl font-bold mb-1">Guest</h2>
+                    <div class="font-bold text-orange-500 dark:text-yellow-400 text-lg"><i class="fa-solid fa-wallet mr-2"></i><span id="profile-chem">0</span> VNĐ</div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-xl">
+                <h3 class="text-lg font-bold mb-4 border-b border-gray-200 dark:border-gray-800 pb-2"><i class="fa-solid fa-lock text-gray-500 mr-2"></i> Đổi Mật Khẩu</h3>
+                <div class="space-y-4">
+                    <input id="pwd-old" type="password" placeholder="Mật khẩu hiện tại" class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 focus:border-cyan-500">
+                    <input id="pwd-new" type="password" placeholder="Mật khẩu mới" class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 focus:border-cyan-500">
+                    <button onclick="changePassword()" class="w-full bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 text-white font-bold py-3 rounded-lg">Lưu Mật Khẩu</button>
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- POPUP NHẬP MÃ -->
+    <!-- POPUP BÁO CÁO NHIỆM VỤ -->
     <div id="modal-verify" class="fixed inset-0 modal-bg z-[100] hidden flex items-center justify-center px-4">
-        <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl max-w-md w-full shadow-[0_0_30px_rgba(6,182,212,0.15)] relative">
-            <button onclick="closeVerifyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white text-2xl"><i class="fa-solid fa-times"></i></button>
-            <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-shield-halved text-cyan-400 mr-2"></i>Xác Nhận Nhiệm Vụ</h3>
-            <p class="text-gray-400 mb-6 text-sm" id="verify-desc">...</p>
-            <input id="verify-input" type="text" class="w-full bg-gray-950 border border-cyan-500 rounded-lg px-4 py-4 text-white text-lg mb-6" placeholder="Nhập mã tại đây...">
-            <button id="btn-submit-verify" onclick="submitVerify()" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 rounded-lg hover:scale-105 transition-transform">
+        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-8 rounded-2xl max-w-md w-full shadow-2xl relative">
+            <button onclick="closeVerifyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-white text-2xl"><i class="fa-solid fa-times"></i></button>
+            <h3 class="text-xl font-bold mb-2"><i class="fa-solid fa-shield-halved text-cyan-500 mr-2"></i> Xác Nhận Nhiệm Vụ</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm" id="verify-desc">...</p>
+            <input id="verify-input" type="text" class="w-full bg-gray-50 dark:bg-gray-950 border border-cyan-500 rounded-lg px-4 py-4 text-lg mb-6 outline-none" placeholder="Nhập mã tại đây...">
+            <button id="btn-submit-verify" onclick="submitVerify()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-lg transition-transform">
                 Gửi Báo Cáo & Nhận Tiền
             </button>
         </div>
     </div>
 
     <script>
-        let currentUser = null; let allTasks = []; let myPostedTasks = []; let myHistory = [];
+        let currentUser = null; let allTasks = []; let myPostedTasks = []; let myHistory = []; let leaderboardData = [];
         let currentTaskType = 'vuot_link'; let authMode = 'login'; 
         let activeTaskId = null; let activeTaskType = null;
 
+        // KIỂM TRA CHẾ ĐỘ SÁNG/TỐI LÚC TẢI TRANG
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-btn').innerHTML = '<i class="fa-solid fa-sun text-yellow-500"></i>';
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.getElementById('theme-btn').innerHTML = '<i class="fa-solid fa-moon text-gray-600"></i>';
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-btn').innerHTML = isDark ? '<i class="fa-solid fa-sun text-yellow-500"></i>' : '<i class="fa-solid fa-moon text-gray-600"></i>';
+        }
+
         window.onload = () => {
             const saved = localStorage.getItem('ccg_user');
-            if(saved) { currentUser = JSON.parse(saved); updateUI(); switchTab('home'); fetchData(); }
+            if(saved) { currentUser = JSON.parse(saved); updateUI(); switchTab('home'); fetchData(); setupPostTaskForm(); }
         };
 
         function showToast(msg, type="success") { Toastify({ text: msg, duration: 3000, gravity: "bottom", position: "right", style: { background: type==="success" ? "#059669" : "#e11d48", borderRadius: "8px", fontWeight: "bold" } }).showToast(); }
 
         async function apiCall(action, payload) {
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action, ...payload }) });
-                return await res.json();
-            } catch(e) { showToast("Lỗi kết nối Server!", "error"); return null; }
+            try { const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action, ...payload }) }); return await res.json(); } 
+            catch(e) { showToast("Lỗi máy chủ!", "error"); return null; }
         }
 
         function updateUI() {
             if(currentUser) {
                 document.getElementById('nav-menu').classList.remove('hidden');
                 document.getElementById('nav-chem').innerText = currentUser.chem;
-                const pChem = document.getElementById('profile-chem');
-                if(pChem) pChem.innerText = currentUser.chem;
+                document.getElementById('profile-name').innerText = currentUser.username;
+                document.getElementById('profile-chem').innerText = currentUser.chem;
+                setupPostTaskForm();
             } else { document.getElementById('nav-menu').classList.add('hidden'); }
         }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(`tab-${tab}`).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.className = "nav-btn text-gray-500 dark:text-gray-400 hover:text-cyan-500 font-semibold transition-colors");
+            if(tab !== 'auth') document.querySelector(`button[onclick="switchTab('${tab}')"]`).className = "nav-btn text-cyan-500 font-semibold";
         }
 
         function toggleAuth(mode) {
             authMode = mode;
-            document.getElementById('btn-show-login').className = mode === 'login' ? "px-4 py-2 border-b-2 border-cyan-400 text-cyan-400 font-bold" : "px-4 py-2 text-gray-500 font-bold";
-            document.getElementById('btn-show-register').className = mode === 'register' ? "px-4 py-2 border-b-2 border-cyan-400 text-cyan-400 font-bold" : "px-4 py-2 text-gray-500 font-bold";
+            document.getElementById('btn-show-login').className = mode === 'login' ? "px-4 py-2 border-b-2 border-cyan-500 text-cyan-500 font-bold" : "px-4 py-2 text-gray-500 font-bold";
+            document.getElementById('btn-show-register').className = mode === 'register' ? "px-4 py-2 border-b-2 border-cyan-500 text-cyan-500 font-bold" : "px-4 py-2 text-gray-500 font-bold";
         }
 
         async function handleAuth() {
@@ -184,42 +244,70 @@
 
         async function fetchData() {
             const res = await apiCall('get_data', { username: currentUser.username });
-            if(res && res.success) { allTasks = res.tasks; myPostedTasks = res.postedTasks; myHistory = res.history; filterTasks(currentTaskType); renderHistory(); }
+            if(res && res.success) { 
+                allTasks = res.tasks; myHistory = res.history; leaderboardData = res.leaderboard; 
+                filterTasks(currentTaskType); renderHistory(); renderLeaderboard();
+            }
+        }
+
+        // TỰ ĐỘNG CHỈNH FORM TẠO NHIỆM VỤ DỰA TRÊN TÊN ADMIN
+        function setupPostTaskForm() {
+            if(!currentUser) return;
+            const select = document.getElementById('post-type');
+            let options = `
+                <option value="cheo_chem">Chéo Chém Giá - Giá: 150 VNĐ/lượt</option>
+                <option value="cheo_tim">Tăng Tim (Like) - Giá: 200 VNĐ/lượt</option>
+                <option value="cheo_follow">Tăng Follow - Giá: 300 VNĐ/lượt</option>
+            `;
+            // CHỈ ADMIN MỚI THẤY VƯỢT LINK
+            if(currentUser.username === ADMIN_USERNAME) {
+                options = `<option value="vuot_link">Vượt Link - MIỄN PHÍ (Chỉ Admin)</option>` + options;
+            }
+            select.innerHTML = options;
+            calcCost();
         }
 
         function filterTasks(type) {
             currentTaskType = type;
-            document.getElementById('btn-type-vuot').className = type === 'vuot_link' ? "nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg";
-            document.getElementById('btn-type-tim').className = type === 'cheo_tim' ? "nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg";
+            const btnActive = "nav-task-btn bg-cyan-100 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-bold px-5 py-2 rounded-lg border border-cyan-300 dark:border-cyan-500/50";
+            const btnInactive = "nav-task-btn bg-white dark:bg-gray-900 text-gray-500 font-bold px-5 py-2 rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50";
+            
+            document.getElementById('btn-type-vuot').className = type === 'vuot_link' ? btnActive : btnInactive;
+            document.getElementById('btn-type-chem').className = type === 'cheo_chem' ? btnActive : btnInactive;
+            document.getElementById('btn-type-tim').className = type === 'cheo_tim' ? btnActive : btnInactive;
+            document.getElementById('btn-type-follow').className = type === 'cheo_follow' ? btnActive : btnInactive;
             
             const list = document.getElementById('tasks-container');
             const filtered = allTasks.filter(t => t.type === type && t.current < t.target && t.creator !== currentUser.username);
             
-            if(filtered.length === 0) { list.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">Hết nhiệm vụ!</div>`; return; }
+            if(filtered.length === 0) { list.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10 italic">Hiện chưa có nhiệm vụ nào!</div>`; return; }
 
             list.innerHTML = filtered.map(t => `
-                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 flex flex-col justify-between shadow-lg">
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 shadow-md">
                     <div class="mb-4">
                         <div class="text-xs text-gray-500 mb-2">ID: ${t.id}</div>
-                        <div class="truncate text-sm text-cyan-400 font-medium">${t.type === 'vuot_link' ? 'Vượt link Link4m (Tự động tạo)' : t.url}</div>
+                        <div class="truncate text-sm font-semibold text-blue-600 dark:text-cyan-400">${t.type === 'vuot_link' ? 'Vượt link Link4m (Tự động)' : t.url}</div>
                     </div>
                     <div class="flex justify-between items-center mb-4">
-                        <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded text-sm font-bold">+${t.reward} đ</span>
-                        <span class="text-xs text-gray-400 bg-gray-950 px-2 py-1 rounded">Đã làm: ${t.current}/${t.target}</span>
+                        <span class="bg-orange-100 dark:bg-yellow-500/20 text-orange-600 dark:text-yellow-400 px-3 py-1 rounded text-sm font-bold">+${t.reward} đ</span>
+                        <span class="text-xs text-gray-500 bg-gray-100 dark:bg-gray-950 px-2 py-1 rounded">Đã làm: ${t.current}/${t.target}</span>
                     </div>
-                    <button onclick="startTaskVerify('${t.id}', '${t.url}', '${t.type}', event)" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 active:scale-95 transition-transform">
-                        <i class="fa-solid fa-play mr-1"></i> Làm & Báo Cáo
+                    <button onclick="startTaskVerify('${t.id}', '${t.url}', '${t.type}', event)" class="w-full bg-gray-100 dark:bg-white text-gray-800 dark:text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors">
+                        Làm & Báo Cáo
                     </button>
                 </div>
             `).join('');
         }
 
-        // TẠO NHIỆM VỤ (TRỪ TIỀN NGƯỜI ĐĂNG)
         function calcCost() {
             const type = document.getElementById('post-type').value;
-            let cost = type === 'vuot_link' ? 150 : 200;
+            let cost = 150;
+            if (type === 'cheo_tim') cost = 200;
+            if (type === 'cheo_follow') cost = 300;
+            if (type === 'vuot_link') cost = 0; // ADMIN TẠO KHÔNG TỐN TIỀN
+
             const views = document.getElementById('post-views').value;
-            document.getElementById('post-total').innerText = `- ${views * cost} VNĐ`;
+            document.getElementById('post-total').innerText = (cost === 0 ? "MIỄN PHÍ" : `- ${views * cost} VNĐ`);
         }
 
         async function postTask() {
@@ -227,12 +315,13 @@
             const url = document.getElementById('post-url').value.trim();
             const views = document.getElementById('post-views').value;
             
-            let costPerView = type === 'vuot_link' ? 150 : 200;
-            let rewardPerView = type === 'vuot_link' ? 100 : 150;
-            const totalCost = views * costPerView;
+            let costPerView = 150; let rewardPerView = 100;
+            if (type === 'cheo_tim') { costPerView = 200; rewardPerView = 150; }
+            if (type === 'cheo_follow') { costPerView = 300; rewardPerView = 200; }
+            if (type === 'vuot_link') { costPerView = 0; rewardPerView = 100; } // Vượt link: Admin tốn 0đ, member ăn 100đ
 
+            const totalCost = views * costPerView;
             if(type !== 'vuot_link' && !url) return showToast("Cần nhập URL!", "error");
-            if(totalCost > currentUser.chem) return showToast("Không đủ tiền trong tài khoản!", "error");
 
             const btn = document.getElementById('btn-post-task');
             btn.innerHTML = `<span class="loader"></span>`;
@@ -246,35 +335,25 @@
             btn.innerHTML = `Thanh toán & Đăng`;
         }
 
-        // BẤM VÀO LÀM NHIỆM VỤ VÀ GỌI API LINK4M
         async function startTaskVerify(taskId, url, type, event) {
-            activeTaskId = taskId;
-            activeTaskType = type;
-            
+            activeTaskId = taskId; activeTaskType = type;
             if (type === 'vuot_link') {
-                const btn = event.currentTarget;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang tạo link...`;
-                btn.disabled = true;
-
+                const btn = event.currentTarget; const originalText = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang tạo link...`; btn.disabled = true;
                 const res = await apiCall('get_shortlink', { username: currentUser.username, taskId: taskId });
-                
                 btn.innerHTML = originalText; btn.disabled = false;
-
                 if(res && res.success) {
                     window.open(res.shortUrl, '_blank');
                     const modal = document.getElementById('modal-verify');
-                    document.getElementById('verify-desc').innerHTML = `Đã mở Tab mới. Hãy vượt qua Link4m để lấy mã Token. Dán mã đó vào đây để nhận tiền!`;
+                    document.getElementById('verify-desc').innerHTML = `Đã mở Tab Link4m mới. Hãy vượt qua quảng cáo để lấy mã Token và dán vào đây!`;
                     document.getElementById('verify-input').value = '';
-                    document.getElementById('verify-input').placeholder = "Nhập mã Token vào đây...";
                     modal.classList.remove('hidden');
-                } else { showToast("Lỗi tạo link rút gọn: " + (res?.message || "Không xác định"), "error"); }
+                } else { showToast("Lỗi tạo link!", "error"); }
             } else {
                 window.open(url, '_blank');
                 const modal = document.getElementById('modal-verify');
-                document.getElementById('verify-desc').innerHTML = "Nhập chính xác ID TikTok/Shopee của bạn để admin duyệt.";
+                document.getElementById('verify-desc').innerHTML = "Nhập chính xác ID/Username bạn vừa dùng để tương tác.";
                 document.getElementById('verify-input').value = '';
-                document.getElementById('verify-input').placeholder = "Nhập ID (VD: @nguyenvana)";
                 modal.classList.remove('hidden');
             }
         }
@@ -299,17 +378,54 @@
             btn.innerHTML = originalText; btn.disabled = false;
         };
 
+        // KHÔI PHỤC ĐỔI MẬT KHẨU
+        async function changePassword() {
+            const oldP = document.getElementById('pwd-old').value;
+            const newP = document.getElementById('pwd-new').value;
+            if(!oldP || !newP) return showToast("Nhập đủ mật khẩu!", "error");
+            
+            const res = await apiCall('change_password', { username: currentUser.username, oldPassword: oldP, newPassword: newP });
+            if(res && res.success) {
+                showToast(res.message); document.getElementById('pwd-old').value = ''; document.getElementById('pwd-new').value = '';
+            } else { showToast(res.message, "error"); }
+        }
+
         function renderHistory() {
             const box = document.getElementById('history-done');
-            box.innerHTML = myHistory.length === 0 ? '<p>Chưa có dữ liệu.</p>' : myHistory.reverse().map(h => `
-                <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center">
+            box.innerHTML = myHistory.length === 0 ? '<p class="text-gray-500">Chưa có dữ liệu.</p>' : myHistory.reverse().map(h => `
+                <div class="bg-gray-50 dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-between items-center">
                     <div>
                         <div class="text-xs text-gray-500">${h.time}</div>
-                        <div class="text-sm text-cyan-400">ID: ${h.target}</div>
+                        <div class="text-sm font-semibold text-blue-600 dark:text-cyan-400">ID: ${h.target}</div>
                     </div>
-                    <span class="text-xs font-bold ${h.status === 'approved' ? 'text-green-500' : 'text-yellow-500'}">${h.status === 'approved' ? 'Hoàn thành' : 'Chờ duyệt'}</span>
+                    <span class="text-xs font-bold px-2 py-1 rounded ${h.status === 'approved' ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400'}">${h.status === 'approved' ? 'Hoàn thành' : 'Chờ duyệt'}</span>
                 </div>
             `).join('');
+        }
+
+        // KHÔI PHỤC RENDER BẢNG XẾP HẠNG
+        function renderLeaderboard() {
+            const box = document.getElementById('leaderboard-container');
+            if(leaderboardData.length === 0) { box.innerHTML = '<p class="text-gray-500">Chưa có dữ liệu.</p>'; return; }
+            
+            let html = '';
+            leaderboardData.forEach((user, index) => {
+                let medal = '';
+                if(index === 0) medal = '<i class="fa-solid fa-medal text-yellow-500 text-2xl"></i>';
+                else if(index === 1) medal = '<i class="fa-solid fa-medal text-gray-400 text-xl"></i>';
+                else if(index === 2) medal = '<i class="fa-solid fa-medal text-orange-600 text-lg"></i>';
+                else medal = `<span class="text-gray-400 font-bold w-6 text-center">${index + 1}</span>`;
+
+                html += `
+                <div class="bg-gray-50 dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 flex justify-between items-center hover:scale-[1.01] transition-transform cursor-default">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 flex justify-center">${medal}</div>
+                        <div class="font-bold text-lg ${index === 0 ? 'text-yellow-500' : ''}">${user.username}</div>
+                    </div>
+                    <div class="font-bold text-orange-500 dark:text-yellow-400">${user.chem.toLocaleString()} đ</div>
+                </div>`;
+            });
+            box.innerHTML = html;
         }
     </script>
 </body>
