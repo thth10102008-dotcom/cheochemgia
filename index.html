@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chéo Chém Giá - Nền tảng Uy tín</title>
+    <title>Chéo Chém Giá - Hệ Thống Vượt Link Auto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -16,23 +16,15 @@
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid #06b6d4; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .modal-bg { background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); }
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-gray-950 text-gray-200 min-h-screen font-sans flex flex-col relative">
 
     <script>
-        // LINK API GOOGLE SHEETS
+        // THAY LINK WEB APP CỦA BẠN VÀO ĐÂY
         const API_URL = "https://script.google.com/macros/s/AKfycbyHVpnGTom-05eQ-KOGqohCKdnOUgVvekk2e5AZx57JPhw6YGfQSvCMcFSb3OQl8YwelQ/exec";
     </script>
 
-    <!-- NÚT TELEGRAM -->
-    <a href="https://t.me/Admin_Tele" target="_blank" class="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white w-14 h-14 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.6)] flex items-center justify-center z-[100] transition-transform hover:scale-110">
-        <i class="fa-brands fa-telegram text-3xl"></i>
-    </a>
-
-    <!-- NAVBAR -->
     <nav class="bg-gray-900 border-b border-gray-800 text-white p-4 sticky top-0 z-50 shadow-lg">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onclick="switchTab('home')">
@@ -54,7 +46,7 @@
     </nav>
 
     <main class="flex-grow max-w-7xl mx-auto py-8 px-4 w-full">
-        <!-- TRANG ĐĂNG NHẬP -->
+        <!-- ĐĂNG NHẬP -->
         <div id="tab-auth" class="tab-content active max-w-md mx-auto mt-10">
             <div class="bg-gray-900 rounded-2xl p-8 border border-gray-800 shadow-2xl">
                 <div class="flex justify-center mb-6">
@@ -63,54 +55,48 @@
                 </div>
                 <input id="auth-username" type="text" placeholder="Tên tài khoản..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white mb-4">
                 <input id="auth-password" type="password" placeholder="Mật khẩu..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white mb-6">
-                <button id="btn-auth" onclick="handleAuth()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 hover:opacity-90">
-                    Bắt đầu
-                </button>
+                <button id="btn-auth" onclick="handleAuth()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 hover:opacity-90">Bắt đầu</button>
             </div>
         </div>
 
-        <!-- TRANG CHỦ: NHIỆM VỤ -->
+        <!-- DANH SÁCH NHIỆM VỤ -->
         <div id="tab-home" class="tab-content">
             <div class="flex justify-between items-end mb-6 border-b border-gray-800 pb-4">
                 <h1 class="text-3xl font-bold text-white">Nhiệm Vụ</h1>
                 <button onclick="fetchData()" class="bg-gray-800 text-cyan-400 px-4 py-2 rounded-lg font-bold"><i class="fa-solid fa-rotate-right mr-1"></i> Làm mới</button>
             </div>
 
-            <div class="flex gap-3 mb-6 overflow-x-auto pb-2 hide-scroll">
-                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Vượt Link</button>
-                <button id="btn-type-chem" onclick="filterTasks('cheo_chem')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Chém Giá</button>
-                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Tăng Tim</button>
-                <button id="btn-type-follow" onclick="filterTasks('cheo_follow')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap">Tăng Follow</button>
+            <div class="flex gap-3 mb-6 overflow-x-auto pb-2">
+                <button id="btn-type-vuot" onclick="filterTasks('vuot_link')" class="nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg">Vượt Link</button>
+                <button id="btn-type-tim" onclick="filterTasks('cheo_tim')" class="nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg">Tăng Tim</button>
             </div>
 
             <div id="tasks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
         </div>
 
-        <!-- TRANG ĐĂNG LINK -->
+        <!-- TẠO NHIỆM VỤ -->
         <div id="tab-post" class="tab-content max-w-xl mx-auto">
             <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
-                <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-paper-plane text-purple-400 mr-2"></i> Đăng Link Nhiệm Vụ</h2>
+                <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-paper-plane text-purple-400 mr-2"></i> Tạo Nhiệm Vụ Mới</h2>
                 <div class="space-y-5">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Loại tương tác cần mua</label>
-                        <select id="post-type" onchange="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
-                            <option value="cheo_chem">Chéo Chém Giá - Giá: 150 VNĐ/lượt</option>
-                            <option value="cheo_tim">Tăng Tim (Like) - Giá: 200 VNĐ/lượt</option>
-                            <option value="cheo_follow">Tăng Follow - Giá: 300 VNĐ/lượt</option>
+                        <label class="block text-sm text-gray-400 mb-2">Loại nhiệm vụ</label>
+                        <select id="post-type" onchange="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
+                            <option value="vuot_link">Vượt Link - Giá: 150 VNĐ/lượt (Tặng 100 VNĐ cho người làm)</option>
+                            <option value="cheo_tim">Tăng Tim - Giá: 200 VNĐ/lượt (Tặng 150 VNĐ cho người làm)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Đường link (TikTok / Shopee...)</label>
-                        <input id="post-url" type="text" placeholder="https://..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                        <label class="block text-sm text-gray-400 mb-2">Đường link (Tùy chọn cho Vượt Link)</label>
+                        <input id="post-url" type="text" placeholder="https://..." class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Số lượt cần</label>
-                        <input id="post-views" type="number" min="1" value="10" oninput="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                        <label class="block text-sm text-gray-400 mb-2">Số lượt cần thuê</label>
+                        <input id="post-views" type="number" min="1" value="10" oninput="calcCost()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white">
                     </div>
                     <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 shadow-inner">
-                        <div class="flex justify-between mb-2 text-gray-400"><span>Đơn giá 1 lượt:</span> <span id="price-label" class="text-white font-bold">150 VNĐ</span></div>
                         <div class="flex justify-between border-t border-gray-800 pt-3 mt-2 font-bold text-lg">
-                            <span>Tổng thanh toán:</span> <span id="post-total" class="text-yellow-400">- 1500 VNĐ</span>
+                            <span>Tổng chi phí:</span> <span id="post-total" class="text-yellow-400">- 1500 VNĐ</span>
                         </div>
                     </div>
                     <button id="btn-post-task" onclick="postTask()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-4 rounded-lg hover:opacity-90">
@@ -120,112 +106,60 @@
             </div>
         </div>
 
-        <!-- TRANG LỊCH SỬ -->
         <div id="tab-history" class="tab-content">
-            <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-clock-rotate-left mr-2"></i> Lịch Sử Quản Lý</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-lg">
-                    <h3 class="text-lg font-bold text-cyan-400 mb-4 border-b border-gray-800 pb-2">Lịch sử làm nhiệm vụ</h3>
-                    <div id="history-done" class="space-y-3 max-h-[500px] overflow-y-auto pr-2"></div>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow-lg">
-                    <h3 class="text-lg font-bold text-purple-400 mb-4 border-b border-gray-800 pb-2">Tiến độ link bạn đã đăng</h3>
-                    <div id="history-post" class="space-y-3 max-h-[500px] overflow-y-auto pr-2"></div>
-                </div>
-            </div>
+            <h2 class="text-2xl font-bold text-white mb-6">Lịch Sử</h2>
+            <div id="history-done" class="space-y-3"></div>
         </div>
-
-        <!-- TRANG CÁ NHÂN & CHUYỂN TIỀN -->
         <div id="tab-profile" class="tab-content">
-            <h2 class="text-2xl font-bold text-white mb-6"><i class="fa-solid fa-user-gear text-gray-400 mr-2"></i> Hồ Sơ & Cài Đặt</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl mb-6 flex items-center gap-6">
-                        <div class="w-24 h-24 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-full flex items-center justify-center text-4xl shadow-lg">
-                            <i class="fa-solid fa-user text-white"></i>
-                        </div>
-                        <div>
-                            <h2 id="profile-name" class="text-3xl font-bold text-white mb-1">Guest</h2>
-                            <div class="font-bold text-yellow-400 text-xl"><i class="fa-solid fa-wallet mr-2"></i><span id="profile-chem">0</span> VNĐ</div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
-                        <h3 class="text-lg font-bold text-green-400 mb-4 border-b border-gray-800 pb-2"><i class="fa-solid fa-money-bill-transfer mr-2"></i> Chuyển Tiền Chéo</h3>
-                        <div class="space-y-4">
-                            <input id="transfer-receiver" type="text" placeholder="Tên tài khoản người nhận" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-cyan-500">
-                            <input id="transfer-amount" type="number" placeholder="Số tiền cần chuyển" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-cyan-500">
-                            <button id="btn-transfer" onclick="transferMoney()" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700">Chuyển Ngay</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="text-2xl font-bold text-white mb-6">Cá Nhân</h2>
+            <div class="text-xl font-bold text-yellow-400 mb-4">Số dư: <span id="profile-chem">0</span> VNĐ</div>
         </div>
     </main>
 
-    <!-- POPUP BÁO CÁO NHIỆM VỤ (KHÔNG CÒN ĐẾM THỜI GIAN) -->
+    <!-- POPUP NHẬP MÃ -->
     <div id="modal-verify" class="fixed inset-0 modal-bg z-[100] hidden flex items-center justify-center px-4">
         <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl max-w-md w-full shadow-[0_0_30px_rgba(6,182,212,0.15)] relative">
             <button onclick="closeVerifyModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white text-2xl"><i class="fa-solid fa-times"></i></button>
-            
-            <h3 class="text-xl font-bold text-white mb-2" id="verify-title"><i class="fa-solid fa-shield-halved text-cyan-400 mr-2"></i>Xác Nhận Nhiệm Vụ</h3>
+            <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-shield-halved text-cyan-400 mr-2"></i>Xác Nhận Nhiệm Vụ</h3>
             <p class="text-gray-400 mb-6 text-sm" id="verify-desc">...</p>
-            
-            <input id="verify-input" type="text" class="w-full bg-gray-950 border border-cyan-500 rounded-lg px-4 py-4 text-white text-lg mb-6 focus:outline-none focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all" placeholder="Nhập tại đây...">
-            
-            <button id="btn-submit-verify" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 rounded-lg hover:scale-105 transition-transform active:scale-95 shadow-lg">
+            <input id="verify-input" type="text" class="w-full bg-gray-950 border border-cyan-500 rounded-lg px-4 py-4 text-white text-lg mb-6" placeholder="Nhập mã tại đây...">
+            <button id="btn-submit-verify" onclick="submitVerify()" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 rounded-lg hover:scale-105 transition-transform">
                 Gửi Báo Cáo & Nhận Tiền
             </button>
         </div>
     </div>
 
     <script>
-        let currentUser = null;
-        let allTasks = [];
-        let myPostedTasks = [];
-        let myHistory = [];
-        let currentTaskType = 'vuot_link'; 
-        let authMode = 'login'; 
-
-        let activeTaskId = null;
-        let activeTaskType = null;
+        let currentUser = null; let allTasks = []; let myPostedTasks = []; let myHistory = [];
+        let currentTaskType = 'vuot_link'; let authMode = 'login'; 
+        let activeTaskId = null; let activeTaskType = null;
 
         window.onload = () => {
             const saved = localStorage.getItem('ccg_user');
-            if(saved) {
-                currentUser = JSON.parse(saved);
-                updateUI(); switchTab('home'); fetchData();
-            }
+            if(saved) { currentUser = JSON.parse(saved); updateUI(); switchTab('home'); fetchData(); }
         };
 
-        function showToast(msg, type="success") {
-            Toastify({ text: msg, duration: 3000, gravity: "bottom", position: "right", style: { background: type==="success" ? "#059669" : "#e11d48", borderRadius: "8px", fontWeight: "bold" } }).showToast();
-        }
+        function showToast(msg, type="success") { Toastify({ text: msg, duration: 3000, gravity: "bottom", position: "right", style: { background: type==="success" ? "#059669" : "#e11d48", borderRadius: "8px", fontWeight: "bold" } }).showToast(); }
 
         async function apiCall(action, payload) {
             try {
                 const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action, ...payload }) });
                 return await res.json();
-            } catch(e) { showToast("Lỗi máy chủ!", "error"); return null; }
+            } catch(e) { showToast("Lỗi kết nối Server!", "error"); return null; }
         }
 
         function updateUI() {
             if(currentUser) {
                 document.getElementById('nav-menu').classList.remove('hidden');
                 document.getElementById('nav-chem').innerText = currentUser.chem;
-                const pName = document.getElementById('profile-name');
                 const pChem = document.getElementById('profile-chem');
-                if(pName) pName.innerText = currentUser.username;
                 if(pChem) pChem.innerText = currentUser.chem;
-            } else {
-                document.getElementById('nav-menu').classList.add('hidden');
-            }
+            } else { document.getElementById('nav-menu').classList.add('hidden'); }
         }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(`tab-${tab}`).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(b => b.className = "nav-btn font-medium text-gray-400 hover:text-white");
-            if(tab !== 'auth') document.querySelector(`button[onclick="switchTab('${tab}')"]`).className = "nav-btn font-medium text-cyan-400";
         }
 
         function toggleAuth(mode) {
@@ -238,7 +172,6 @@
             const u = document.getElementById('auth-username').value.trim();
             const p = document.getElementById('auth-password').value.trim();
             if(!u || !p) return showToast("Nhập đủ thông tin!", "error");
-
             document.getElementById('btn-auth').innerHTML = `<span class="loader"></span>`;
             const res = await apiCall(authMode, { username: u, password: p });
             if(res && res.success) {
@@ -247,224 +180,136 @@
             } else { showToast(res.message, "error"); }
             document.getElementById('btn-auth').innerHTML = `Bắt đầu`;
         }
-
         function logout() { localStorage.removeItem('ccg_user'); currentUser = null; switchTab('auth'); updateUI(); }
 
         async function fetchData() {
             const res = await apiCall('get_data', { username: currentUser.username });
-            if(res && res.success) {
-                allTasks = res.tasks; myPostedTasks = res.postedTasks; myHistory = res.history;
-                filterTasks(currentTaskType); renderHistory();
-            }
+            if(res && res.success) { allTasks = res.tasks; myPostedTasks = res.postedTasks; myHistory = res.history; filterTasks(currentTaskType); renderHistory(); }
         }
 
         function filterTasks(type) {
             currentTaskType = type;
-            const activeClass = "nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg whitespace-nowrap transition-colors";
-            const inactiveClass = "nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg whitespace-nowrap hover:text-gray-300 transition-colors";
-
-            document.getElementById('btn-type-vuot').className = type === 'vuot_link' ? activeClass : inactiveClass;
-            document.getElementById('btn-type-chem').className = type === 'cheo_chem' ? activeClass : inactiveClass;
-            document.getElementById('btn-type-tim').className = type === 'cheo_tim' ? activeClass : inactiveClass;
-            document.getElementById('btn-type-follow').className = type === 'cheo_follow' ? activeClass : inactiveClass;
+            document.getElementById('btn-type-vuot').className = type === 'vuot_link' ? "nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg";
+            document.getElementById('btn-type-tim').className = type === 'cheo_tim' ? "nav-task-btn bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 font-bold px-5 py-2 rounded-lg" : "nav-task-btn bg-gray-900 text-gray-500 border border-gray-800 font-bold px-5 py-2 rounded-lg";
             
             const list = document.getElementById('tasks-container');
-            const filtered = allTasks
-                .filter(t => t.type === type && t.current < t.target && t.creator !== currentUser.username)
-                .sort(() => Math.random() - 0.5); 
+            const filtered = allTasks.filter(t => t.type === type && t.current < t.target && t.creator !== currentUser.username);
             
-            if(filtered.length === 0) {
-                list.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10"><i class="fa-solid fa-box-open text-4xl mb-3 block"></i>Tuyệt vời, tất cả nhiệm vụ đã được làm hết!</div>`;
-                return;
-            }
+            if(filtered.length === 0) { list.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">Hết nhiệm vụ!</div>`; return; }
 
-            list.innerHTML = filtered.map(t => {
-                let badge = '';
-                if(t.type === 'cheo_tim') badge = '<span class="text-pink-400 text-xs border border-pink-400/50 px-2 py-1 rounded ml-2">Tăng Tim</span>';
-                else if(t.type === 'cheo_follow') badge = '<span class="text-blue-400 text-xs border border-blue-400/50 px-2 py-1 rounded ml-2">Tăng Follow</span>';
-                else if(t.type === 'cheo_chem') badge = '<span class="text-yellow-400 text-xs border border-yellow-400/50 px-2 py-1 rounded ml-2">Chém Giá</span>';
-
-                return `
-                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 flex flex-col justify-between shadow-lg hover:border-gray-700 transition-colors">
+            list.innerHTML = filtered.map(t => `
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 flex flex-col justify-between shadow-lg">
                     <div class="mb-4">
-                        <div class="text-xs text-gray-500 mb-2">ID: ${t.id} ${badge}</div>
-                        <div class="truncate text-sm text-cyan-400 font-medium">${t.url}</div>
+                        <div class="text-xs text-gray-500 mb-2">ID: ${t.id}</div>
+                        <div class="truncate text-sm text-cyan-400 font-medium">${t.type === 'vuot_link' ? 'Vượt link Link4m (Tự động tạo)' : t.url}</div>
                     </div>
                     <div class="flex justify-between items-center mb-4">
                         <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded text-sm font-bold">+${t.reward} đ</span>
                         <span class="text-xs text-gray-400 bg-gray-950 px-2 py-1 rounded">Đã làm: ${t.current}/${t.target}</span>
                     </div>
-                    <button onclick="startTaskVerify('${t.id}', '${t.url}', '${t.type}')" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 active:scale-95 transition-transform">
+                    <button onclick="startTaskVerify('${t.id}', '${t.url}', '${t.type}', event)" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 active:scale-95 transition-transform">
                         <i class="fa-solid fa-play mr-1"></i> Làm & Báo Cáo
                     </button>
                 </div>
-            `}).join('');
+            `).join('');
         }
 
+        // TẠO NHIỆM VỤ (TRỪ TIỀN NGƯỜI ĐĂNG)
         function calcCost() {
             const type = document.getElementById('post-type').value;
-            let price = 150; 
-            if (type === 'cheo_follow') price = 300;
-            if (type === 'cheo_tim') price = 200;
-            const v = document.getElementById('post-views').value;
-            document.getElementById('price-label').innerText = price + " VNĐ";
-            document.getElementById('post-total').innerText = `- ${v * price} VNĐ`;
+            let cost = type === 'vuot_link' ? 150 : 200;
+            const views = document.getElementById('post-views').value;
+            document.getElementById('post-total').innerText = `- ${views * cost} VNĐ`;
         }
 
         async function postTask() {
+            const type = document.getElementById('post-type').value;
             const url = document.getElementById('post-url').value.trim();
             const views = document.getElementById('post-views').value;
-            const type = document.getElementById('post-type').value;
             
-            let costPerView = 150;
-            let rewardPerView = 100;
-            if (type === 'cheo_follow') { costPerView = 300; rewardPerView = 200; }
-            if (type === 'cheo_tim') { costPerView = 200; rewardPerView = 100; }
-
+            let costPerView = type === 'vuot_link' ? 150 : 200;
+            let rewardPerView = type === 'vuot_link' ? 100 : 150;
             const totalCost = views * costPerView;
-            if(!url) return showToast("Nhập link!", "error");
-            if(totalCost > currentUser.chem) return showToast("Số dư không đủ!", "error");
+
+            if(type !== 'vuot_link' && !url) return showToast("Cần nhập URL!", "error");
+            if(totalCost > currentUser.chem) return showToast("Không đủ tiền trong tài khoản!", "error");
 
             const btn = document.getElementById('btn-post-task');
             btn.innerHTML = `<span class="loader"></span>`;
             
-            const res = await apiCall('post_task', { username: currentUser.username, taskType: type, url, views, costPerView, rewardPerView, totalCost });
+            const res = await apiCall('post_task', { username: currentUser.username, taskType: type, url: url || "Vượt Link (Auto)", views, costPerView, rewardPerView, totalCost });
             if(res && res.success) {
-                showToast("Đăng link thành công!");
+                showToast("Đăng nhiệm vụ thành công!");
                 currentUser.chem = res.newChem; localStorage.setItem('ccg_user', JSON.stringify(currentUser));
-                updateUI(); document.getElementById('post-url').value = ''; fetchData(); switchTab('history');
+                updateUI(); fetchData(); switchTab('home');
             } else { showToast(res.message, "error"); }
             btn.innerHTML = `Thanh toán & Đăng`;
         }
 
-        // HÀM MỞ POPUP YÊU CẦU BẰNG CHỨNG (THAY THẾ HOÀN TOÀN ĐẾM THỜI GIAN 15 GIÂY)
-        function startTaskVerify(taskId, url, type) {
-            window.open(url, '_blank');
+        // BẤM VÀO LÀM NHIỆM VỤ VÀ GỌI API LINK4M
+        async function startTaskVerify(taskId, url, type, event) {
             activeTaskId = taskId;
             activeTaskType = type;
             
-            const modal = document.getElementById('modal-verify');
-            const desc = document.getElementById('verify-desc');
-            const input = document.getElementById('verify-input');
-            
-            input.value = '';
-            
             if (type === 'vuot_link') {
-                desc.innerHTML = `Nhiệm vụ <b>Vượt Link</b>: Hãy đi đến trang đích để lấy mã bảo mật. Nhập mã đó vào đây để nhận tiền ngay lập tức!`;
-                input.placeholder = "Dán đoạn mã loằng ngoằng bạn vừa lấy được vào đây...";
+                const btn = event.currentTarget;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang tạo link...`;
+                btn.disabled = true;
+
+                const res = await apiCall('get_shortlink', { username: currentUser.username, taskId: taskId });
+                
+                btn.innerHTML = originalText; btn.disabled = false;
+
+                if(res && res.success) {
+                    window.open(res.shortUrl, '_blank');
+                    const modal = document.getElementById('modal-verify');
+                    document.getElementById('verify-desc').innerHTML = `Đã mở Tab mới. Hãy vượt qua Link4m để lấy mã Token. Dán mã đó vào đây để nhận tiền!`;
+                    document.getElementById('verify-input').value = '';
+                    document.getElementById('verify-input').placeholder = "Nhập mã Token vào đây...";
+                    modal.classList.remove('hidden');
+                } else { showToast("Lỗi tạo link rút gọn: " + (res?.message || "Không xác định"), "error"); }
             } else {
-                desc.innerHTML = "Vui lòng nhập chính xác <b>Tên tài khoản (ID)</b> bạn vừa dùng để tương tác. Chủ link sẽ kiểm tra, nhập sai sẽ bị khóa nick.";
-                input.placeholder = "Nhập ID TikTok/Shopee của bạn (VD: @nguyenvana)";
+                window.open(url, '_blank');
+                const modal = document.getElementById('modal-verify');
+                document.getElementById('verify-desc').innerHTML = "Nhập chính xác ID TikTok/Shopee của bạn để admin duyệt.";
+                document.getElementById('verify-input').value = '';
+                document.getElementById('verify-input').placeholder = "Nhập ID (VD: @nguyenvana)";
+                modal.classList.remove('hidden');
             }
-            
-            modal.classList.remove('hidden');
         }
 
-        function closeVerifyModal() {
-            document.getElementById('modal-verify').classList.add('hidden');
-        }
+        function closeVerifyModal() { document.getElementById('modal-verify').classList.add('hidden'); }
 
-        // GỬI MÃ LÊN SERVER KIỂM TRA
-        document.getElementById('btn-submit-verify').onclick = async function() {
+        async function submitVerify() {
             const verifyData = document.getElementById('verify-input').value.trim();
-            if (!verifyData) return showToast("Bạn bắt buộc phải nhập mã báo cáo!", "error");
+            if (!verifyData) return showToast("Chưa nhập thông tin!", "error");
             
             const btn = document.getElementById('btn-submit-verify');
             const originalText = btn.innerHTML;
-            btn.innerHTML = `<span class="loader"></span> Đang kiểm tra...`;
-            btn.disabled = true;
+            btn.innerHTML = `<span class="loader"></span>`; btn.disabled = true;
 
-            const res = await apiCall('submit_task', { 
-                username: currentUser.username, 
-                taskId: activeTaskId,
-                verifyData: verifyData
-            });
+            const res = await apiCall('submit_task', { username: currentUser.username, taskId: activeTaskId, taskType: activeTaskType, verifyData: verifyData });
             
             if(res && res.success) {
                 showToast(res.message);
-                if(res.newChem) {
-                    currentUser.chem = res.newChem;
-                    localStorage.setItem('ccg_user', JSON.stringify(currentUser));
-                    updateUI();
-                }
-                closeVerifyModal();
-                fetchData(); switchTab('history');
-            } else {
-                showToast(res.message, "error");
-                document.getElementById('verify-input').focus();
-            }
-            
-            btn.innerHTML = originalText;
-            btn.disabled = false;
+                if(res.newChem) { currentUser.chem = res.newChem; localStorage.setItem('ccg_user', JSON.stringify(currentUser)); updateUI(); }
+                closeVerifyModal(); fetchData();
+            } else { showToast(res.message, "error"); }
+            btn.innerHTML = originalText; btn.disabled = false;
         };
 
-        async function transferMoney() {
-            const receiver = document.getElementById('transfer-receiver').value.trim();
-            const amount = document.getElementById('transfer-amount').value;
-            if(!receiver || !amount || amount <= 0) return showToast("Thông tin không hợp lệ!", "error");
-
-            const btn = document.getElementById('btn-transfer');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<span class="loader"></span>`;
-
-            const res = await apiCall('transfer_money', { username: currentUser.username, receiver, amount });
-            if(res && res.success) {
-                showToast(res.message);
-                currentUser.chem = res.newChem; localStorage.setItem('ccg_user', JSON.stringify(currentUser));
-                updateUI(); document.getElementById('transfer-receiver').value = ''; document.getElementById('transfer-amount').value = ''; fetchData();
-            } else { showToast(res.message, "error"); }
-            btn.innerHTML = originalText;
-        }
-
         function renderHistory() {
-            const boxDone = document.getElementById('history-done');
-            const boxPost = document.getElementById('history-post');
-            
-            boxDone.innerHTML = myHistory.length === 0 ? '<p class="text-gray-600 text-sm italic">Chưa có dữ liệu.</p>' : myHistory.reverse().map(h => {
-                if (h.action === 'chuyen_tien' || h.action === 'nhan_tien') {
-                    return `
-                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center hover:border-gray-700">
-                        <div>
-                            <div class="text-xs text-gray-500 mb-1"><i class="fa-regular fa-clock"></i> ${h.time}</div>
-                            <div class="text-sm w-40 text-green-400 font-bold">${h.target}</div>
-                        </div>
-                        <span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Giao dịch</span>
-                    </div>`;
-                } else {
-                    // Nếu là vượt link (tự động duyệt) thì ghi "Hoàn thành + Tiền", không ghi "Chờ duyệt" nữa.
-                    let isVuotLink = (h.target.includes('vuot_'));
-                    return `
-                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center hover:border-gray-700">
-                        <div>
-                            <div class="text-xs text-gray-500 mb-1"><i class="fa-regular fa-clock"></i> ${h.time}</div>
-                            <div class="text-sm truncate w-40 text-cyan-400 mb-1" title="ID Nhiệm vụ: ${h.target}">ID: ${h.target}</div>
-                            <div class="text-xs text-gray-500 truncate w-40">Mã/ID: <span class="text-gray-300 font-medium">${h.verifyData || "Không có"}</span></div>
-                        </div>
-                        ${isVuotLink 
-                            ? `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded whitespace-nowrap">Đã duyệt</span>`
-                            : (h.status === 'pending' 
-                                ? `<span class="text-xs font-bold text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded whitespace-nowrap"><i class="fa-solid fa-spinner fa-spin mr-1"></i>Chờ duyệt</span>`
-                                : `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded whitespace-nowrap">Hoàn thành</span>`
-                              )
-                        }
-                    </div>`;
-                }
-            }).join('');
-
-            boxPost.innerHTML = myPostedTasks.length === 0 ? '<p class="text-gray-600 text-sm italic">Chưa đăng link nào.</p>' : myPostedTasks.reverse().map(t => {
-                let isDone = t.current >= t.target;
-                return `
-                <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center hover:border-gray-700 ${isDone ? 'opacity-70' : ''}">
-                    <div class="w-1/2">
-                        <div class="text-sm truncate text-cyan-400 mb-1" title="${t.url}">${t.url}</div>
-                        <div class="text-xs text-gray-500">Tiến độ: <strong class="text-white">${t.current}/${t.target}</strong></div>
+            const box = document.getElementById('history-done');
+            box.innerHTML = myHistory.length === 0 ? '<p>Chưa có dữ liệu.</p>' : myHistory.reverse().map(h => `
+                <div class="bg-gray-950 p-4 rounded-lg border border-gray-800 flex justify-between items-center">
+                    <div>
+                        <div class="text-xs text-gray-500">${h.time}</div>
+                        <div class="text-sm text-cyan-400">ID: ${h.target}</div>
                     </div>
-                    ${isDone 
-                        ? `<span class="text-xs font-bold text-green-500 border border-green-500/30 px-2 py-1 rounded">Hoàn thành</span>` 
-                        : `<span class="text-xs font-bold text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded"><i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang chạy</span>`
-                    }
+                    <span class="text-xs font-bold ${h.status === 'approved' ? 'text-green-500' : 'text-yellow-500'}">${h.status === 'approved' ? 'Hoàn thành' : 'Chờ duyệt'}</span>
                 </div>
-            `}).join('');
+            `).join('');
         }
     </script>
 </body>
